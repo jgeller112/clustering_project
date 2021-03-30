@@ -1,6 +1,6 @@
 ---
 title: '**Results Template**'
-subtitle: A Subtitle
+subtitle: Clustering
 output:
   html_document:
     theme: cerulean
@@ -152,32 +152,15 @@ summary(report::report(sessionInfo()))
 ## Data
 
 ```{r warning=FALSE, message=TRUE, results='asis'}
-df <- read.csv("data/data.csv")
-
-cat(paste("The data consists of",
-          report::report_participants(df,
-                                      participants = "Participant",
-                                      age = "Age")))
+df <- read_csv("data/class_wide_1.csv")
 ```
 
 
-
-Note that the chunks generating figures in the code below have some arguments specified in their header, such as `fig.width` and `fig.height`, which controls the figure size. These were filled with an eponym argument defined in [`utils/config.R`](https://github.com/RealityBending/TemplateResults/blob/main/utils/config.R#L26-L27). We also set the resolution, i.e., `dpi`, to a low value so that the resulting file is lighter. But **don't forget to crank this value up** (to 300-600) to get nice-looking results.
-
-
-# Descriptive Stats {.tabset}
-
-Notice the `{.tabset}` tag after the section name. This will show the subsections as different tabs (in the [html version](https://realitybending.github.io/TemplateResults/#Descriptive_Stats) only, because the other formats are static).
+# Clustering {.tabset}
 
 
-```{r child=if (fast == FALSE) '1_descriptive.Rmd'}
+```{r child=if (fast == FALSE) '1_clustering.Rmd'}
 ```
-
-# Inferential Stats
-
-```{r child=if (fast == FALSE) '2_inferential.Rmd'}
-```
-
 
 # Full Code
 
