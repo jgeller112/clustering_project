@@ -5,281 +5,209 @@
 Introduction
 ============
 
-![Build](https://github.com/RealityBending/TemplateResults/workflows/Build/badge.svg)
-[![Website](https://img.shields.io/badge/repo-Readme-2196F3)](https://github.com/RealityBending/TemplateResults)
-[![Website](https://img.shields.io/badge/visit-website-E91E63)](https://realitybending.github.io/TemplateResults/)
-[![Website](https://img.shields.io/badge/download-.docx-FF5722)](https://github.com/RealityBending/TemplateResults/raw/main/word_and_pdf/SupplementaryMaterials.docx)
-[![Website](https://img.shields.io/badge/see-.pdf-FF9800)](https://github.com/RealityBending/TemplateResults/blob/main/word_and_pdf/SupplementaryMaterials.pdf)
-
-This is a template for a data analysis folder that can be easily
-exported as a
-[**webpage**](https://realitybending.github.io/TemplateResults/) or as
-**Supplementary Materials** (e.g., as a [**Word
-document**](https://github.com/RealityBending/TemplateResults/raw/main/word_and_pdf/SupplementaryMaterials.docx)
-or a
-[**PDF**](https://github.com/RealityBending/TemplateResults/blob/main/word_and_pdf/SupplementaryMaterials.pdf)).
-
-How does it look like? Just like this! The README page of this
-repository, alongside the
-[webpage](https://realitybending.github.io/TemplateResults/) and the
-word and PDF documents, were all created from the
-[index.Rmd](https://github.com/RealityBending/TemplateResults/blob/main/index.Rmd)
-file.
-
-This means you can easily **share your data analysis**, either by
-attaching the *PDF* or *Word* file to the publication (as
-**Supplementary Materials**), or by directly providing the URL of your
-GitHub repository: the readers can then enjoy your awesome open-access
-work in a convenient and transparent way.
-
-Features
---------
-
--   [x] Automatically generates different types of document:
-    -   [**README
-        page**](https://github.com/RealityBending/TemplateResults/blob/main/README.md)
-    -   [**Published
-        website**](https://realitybending.github.io/TemplateResults/)
-    -   [**Word
-        document**](https://github.com/RealityBending/TemplateResults/raw/main/word_and_pdf/SupplementaryMaterials.docx)
-    -   [**PDF
-        document**](https://github.com/RealityBending/TemplateResults/blob/main/word_and_pdf/SupplementaryMaterials.pdf)
--   [x] APA citations
--   [x] Automatic citations and [reference
-    list](https://github.com/RealityBending/TemplateResults#package-references)
-    for all packages
--   [x] Tidy organisation (separate files for independent analyses)
--   [x] Great default configuration
--   [x] And more!
-
-![](figures/demo.gif)
-
-Installation
-------------
-
--   **What is this?**
-
-This repository is a template to set up a reproducible, convenient and
-shareable workflow for your data analysis. It consists of several
-[*Rmarkdown*](https://rmarkdown.rstudio.com/lesson-1.html) files
-(`.Rmd`), that allow you to have R code and text (markdown) in the same
-document. Importantly, these files can be transformed into other
-documents formats.
-
--   **How to use this template?**
-
-Download it ([**click here to
-download**](https://github.com/RealityBending/TemplateResults/archive/main.zip)),
-unzip it and edit. Alternatively, you click on the [**Use this
-template**](https://github.com/RealityBending/TemplateResults/generate)
-button at the top of this screen to create a GitHub repository with all
-the content copied (then you just need to clone the repo to your local
-machine).
-
-The main files you need to edit are the `.Rmd` files, that you can open
-with some editor (e.g., [Rstudio](https://rstudio.com/)), and edit the
-text and the R chunks of code.
-
--   **How to upload it to a website?**
-
-If your repo is not already connected to GitHub, then create a new
-repository and upload all the content (so that it looks like this repo).
-Then, go to settings of the repo and enable **GitHub pages** (i.e., that
-gives you a webpage from an html stored on GitHub), and select the
-`docs/` folder as the location of the webpage. Indeed, rendering
-(knitting) the files will generate an “index.html” file in the `/docs/`
-folder, which is used as the website. You can see an example at
-<https://realitybending.github.io/TemplateResults/>.
-
--   **To knit or not to knit**
-
-In this repo, with have set up a [GitHub
-action](https://github.com/RealityBending/TemplateResults/blob/main/.github/workflows/website.yml)
-that generates all the output files everytime someone commit to the
-repository. This means that the final documents here are always
-“up-to-date” with the *Rmds* (as shown by the green badge). That said,
-you can remove this GitHub action (just remove the
-`.github/workflows/website.yml` file) if you prefer to generate the
-documents manually only.
-
--   **But I don’t want do upload all my data**
-
-In that case, you’ll need to 1) deactivate (i.e., remove the action
-file) the automatic rendering by GitHub (as no data will be stored on
-GitHub) and 2) mark the **data** folder as “to be ignored” (so that it
-won’t be uploaded). This can be done by adding `/data/` to the
-[**.gitignore**](https://github.com/RealityBending/TemplateResults/blob/main/.gitignore)
-file (that you can open with a notepad). This means that you can still
-store the data here locally, and generate the documents accordingly, but
-the data folder will be ignored by git and never uploaded to GitHub.
-This way, you can still have a cool website, an open-access script, but
-the data is safe with you.
-
--   **How to add references?**
-
-References have to be added in `bib` format in the
-[*utils/bibliography.bib*](https://github.com/RealityBending/TemplateResults/blob/main/utils/bibliography.bib)
-file, and further referenced in the text like this
-`[@ludecke2019insight]` (Lüdecke, Waggoner, & Makowski, 2019).
-
--   **It doesn’t work / I have questions / I have ideas**
-
-Just [**open an
-issue**](https://github.com/RealityBending/TemplateResults/issues) and
-we’ll be happy to assist ☺
-
-Structure
----------
-
-Most files that you’ll need to create / edit will be written in
-[**rmarkdown**](https://rmarkdown.rstudio.com/lesson-1.html), which
-consists of a mix of markdown text and R chunks of code.
-
-The main file is named
-[**index.Rmd**](https://github.com/RealityBending/TemplateResults/blob/main/index.Rmd).
-However, to avoid having overly long files, the different (and
-independent) analyses parts are actually split in other documents. For
-instance, in this template example, the descriptive statistics section
-is in the
-[**1\_descriptive.Rmd**](https://github.com/RealityBending/TemplateResults/blob/main/1_descriptive.Rmd)
-file. As you can [see in the index
-file](https://github.com/RealityBending/TemplateResults/blob/690f7947da0fc8ac85eaf6fb87fafeaa46fb3c50/index.Rmd#L89-L90),
-this file is then integrated as a child document (i.e., it is merged).
-This makes it very convenient to have a clear structure with
-well-organized files, that are put together only when merged.
-
-Render and Publish
-------------------
-
-Importantly, in order to render all the files, do not Knit this document
-by pressing the ‘Knit’ button. If you do, it will create an output file
-(for instance `index.html`) in the root folder, alongside `index.Rmd`.
-This is **not what we want**, as we want to keep the output files tidy
-in separate folders (for instance, the html version should be in the
-`/docs/` folder, as this is where the website will look for).
-
-There an R script,
-[utils/render.R](https://github.com/RealityBending/TemplateResults/blob/main/utils/render.R),
-that contains the lines to render everything in its correct location.
-So, when you have the “index.Rmd” file opened (and your working
-directory is at its root), simply run **`source("utils/render.R")`** in
-the console (or the relevant lines in that file). This will run the
-rendering file and create all the files.
-
-Contribution
-------------
-
-Do not hesitate to improve this template by updating, documenting, or
-expanding it!
-
-Packages & Data
-===============
-
-Packages
---------
-
-This document was prepared on 2021-02-10.
-
 ``` r
 library(easystats)
 
 summary(report::report(sessionInfo()))
 ```
 
-The analysis was done using the R Statistical language (v4.0.3; R Core
-Team, 2020) on macOS Catalina 10.15.7, using the packages effectsize
-(v0.4.3.2), ggplot2 (v3.3.3), stringr (v1.4.0), tidyr (v1.1.2), forcats
-(v0.5.1), readr (v1.4.0), dplyr (v1.0.4), rmarkdown (v2.6), tibble
-(v3.0.6), purrr (v0.3.4), parameters (v0.11.0.1), insight (v0.12.0.1),
-see (v0.6.2.1), performance (v0.7.0), modelbased (v0.5.1), easystats
-(v0.2.0), correlation (v0.5.1), bayestestR (v0.8.2.1), report (v0.2.0)
-and tidyverse (v1.3.0).
+The analysis was done using the R Statistical language (v4.0.2; R Core
+Team, 2020) on macOS Catalina 10.15.6, using the packages factoextra
+(v1.0.7), effectsize (v0.4.1), ggplot2 (v3.3.2), stringr (v1.4.0),
+forcats (v0.5.0), tidyr (v1.1.2), readr (v1.3.1), dplyr (v1.0.3),
+rmarkdown (v2.6.6), here (v0.1), tibble (v3.0.6), purrr (v0.3.4),
+parameters (v0.10.1.1), insight (v0.11.1.1), see (v0.6.1.1), performance
+(v0.6.1.1), cluster (v2.1.1), modelbased (v0.4.0), easystats (v0.2.0),
+correlation (v0.5.0), bayestestR (v0.8.0.1), report (v0.2.0), dendextend
+(v1.14.0) and tidyverse (v1.3.0).
 
 Data
 ----
 
 ``` r
-df <- read.csv("data/data.csv")
-
-cat(paste("The data consists of",
-          report::report_participants(df,
-                                      participants = "Participant",
-                                      age = "Age")))
+df <- read_csv("data/class_wide_1.csv")
 ```
 
-The data consists of 10 participants (Mean age = 29.9, SD = 0.5, range:
-\[29.0, 30.91\])
+    > Parsed with column specification:
+    > cols(
+    >   .default = col_double(),
+    >   speaker = col_character(),
+    >   `54` = col_character()
+    > )
 
-Note that the chunks generating figures in the code below have some
-arguments specified in their header, such as `fig.width` and
-`fig.height`, which controls the figure size. These were filled with an
-eponym argument defined in
-[`utils/config.R`](https://github.com/RealityBending/TemplateResults/blob/main/utils/config.R#L26-L27).
-We also set the resolution, i.e., `dpi`, to a low value so that the
-resulting file is lighter. But **don’t forget to crank this value up**
-(to 300-600) to get nice-looking results.
+    > See spec(...) for full column specifications.
 
-Descriptive Stats
-=================
+Clustering
+==========
 
-Notice the `{.tabset}` tag after the section name. This will show the
-subsections as different tabs (in the [html
-version](https://realitybending.github.io/TemplateResults/#Descriptive_Stats)
-only, because the other formats are static).
+Introduction
+------------
 
-Part 1
-------
-
-Here’s a cool plot:
+In this task, individuals heard spoken speech tokens and freely
+classified them into groups. Using hierarchical clustering we aim to see
+what clusters or groups appear as a result of the free classification
+task.
 
 ``` r
-ggplot(df, aes(x=V1, y=V2, color=Participant)) + 
-  geom_point() +
-  see::theme_modern()
+library(here)
+library(tidyverse)  # data manipulation
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering visualization
+library(dendextend) # for comparing two dendrograms
 ```
 
-![](figures/1_plot_scatter_basic-1.png)
+### Data Preparation
 
-Part 2
-------
+1.  Rows are observations (individuals) and columns are variables
+2.  Any missing value in the data must be removed or estimated.
+3.  The data must be standardized (i.e., scaled) to make variables
+    comparable (I am not doing this here)
 
-That’s another great plot:
+### Read in the data
 
 ``` r
-plot(bayestestR::estimate_density(df[c("V1", "V2")])) +
-  see::theme_blackboard()
+clust_data <- read_csv(here("data", "class_wide_1.csv")) # read in data
 ```
 
-![](figures/1_plot_density-1.png)
+    > Warning: Missing column names filled in: 'X1' [1]
 
-Part 3
-------
+    > Parsed with column specification:
+    > cols(
+    >   .default = col_double(),
+    >   speaker = col_character(),
+    >   `54` = col_character()
+    > )
 
-Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not.
-It’s not a story the Jedi would tell you. It’s a Sith legend. Darth
-Plagueis was a Dark Lord of the Sith, so powerful and so wise he could
-use the Force to influence the midichlorians to create life… He had such
-a knowledge of the dark side that he could even keep the ones he cared
-about from dying. The dark side of the Force is a pathway to many
-abilities some consider to be unnatural. He became so powerful… the only
-thing he was afraid of was losing his power, which eventually, of
-course, he did. Unfortunately, he taught his apprentice everything he
-knew, then his apprentice killed him in his sleep. Ironic. He could save
-others from death, but not himself.
-
-Inferential Stats
-=================
-
-Here is another analysis that is contained in a separate file. Let’s
-check-out this linear regression model (note that, in the code chunk
-parameters, I multiplied `figheight` by 2 to have a taller plot):
+    > See spec(...) for full column specifications.
 
 ``` r
-model <- lm(Petal.Length ~ Sepal.Length, data=iris)
-performance::check_model(model)
+clust_data <- select(clust_data, -X1, -`54`) # remove extra col sub 54 has weird formatting
+
+clust_data <- as.data.frame(clust_data) # turn into df 
+
+rownames(clust_data) <- clust_data$speaker # make row names speaker
+
+clust_data <- select(clust_data,-speaker) # remove extra col sub 54 has weird formatting
+
+head(clust_data)# show first couple rows
 ```
 
-![](figures/2_plot_model-1.png)
+    >             8 7 1 10 11 12 14 15 16 17 18 19 2 20 23 25 26 27 28 29  3 30 31 32 33
+    > bengali_9   1 5 5  1 11  2  1  8  4  2  2  1 9  7  4  5  1  1  1 11  5  1  7  7  9
+    > bengali_13  6 5 5  7 14  4  2  7  4  2  6  3 9  1  4  5  4  2  3 11 12  1  8 11  9
+    > bengali_16  1 5 5  7  7  4  3  6  2  8  3  3 3  1  3  4  6  1  3 10  2  1  7  8  9
+    > gujarati_5  4 5 5  1 14  4  1  7  4  9  9  1 9  4  3  5  4  2  4  8  9  1  7  9  9
+    > gujarati_13 1 5 5  1 15  4  2  8  4  2  6  1 9  4  5  5  6  2  4  8  5  1  7  9  9
+    > gujarati_14 5 5 5  1  7  4  1  8  4  9  9  3 9  5  7  5  4  4  6  1  5  1  6  9  9
+    >             34 35 36 38 4 40 41 42 43 44 45 46 47 48 49  5 50 51 52 53 55 56 58 59
+    > bengali_9    8 10  8  1 3  1 10  1  1 12  1  5  1  5  8  1  3  7  1  8  9  1  1  5
+    > bengali_13   8 10 11  1 4 12  1  1  8 11  1  5  4  1  8  5  4  7  3  8  9  1  8 11
+    > bengali_16   8 10 11  6 3  8  8  1  8 11  1  1  2  5  7  5  4  7  3  8  9  8  1  6
+    > gujarati_5   6 10  8  1 2  8  7  1  8  8  3 11  2  2  8 10  3  7 11  8  9  7  3 11
+    > gujarati_13  8 10  2  1 2 12  1  1  8 11  1 11  6  5  8  2  4  7  1  8  9  7 10  5
+    > gujarati_14  6 10  9  1 4 13  2  1  8 11  6  3  4  5  8  3  3  7 15  8  8  8  6  5
+    >             6 78 87 90 91 96 105 110 111 115 121 123 125 132 133 135 148 151 152
+    > bengali_9   9  1 11  1 11  1   6  11   1   2   1   9   1   3   1   1   1   5   1
+    > bengali_13  7  1 11  1 11  1   6  11   7   8   6   9   1   6   2   3   6   9   1
+    > bengali_16  7  5 11  2  6  1   6  10   6   8   6  10  10   4   2   3   1   7   4
+    > gujarati_5  7  1 11  2 10  1   1  11   6   8   6   9  10   4   3   2   3   5   3
+    > gujarati_13 7  1 11  2 11  1   6  11   2   8   6   9  10   4   2   1   1   5   1
+    > gujarati_14 6  2 11  8 11  1   6  11   6   9   6   9   8   4   2   1   2   5   3
+    >             153 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169
+    > bengali_9     8   4   8   6   5   1   5   1   7   4   1   5   1   7   1   2
+    > bengali_13    8   4  10   6   5   2   1  14   7   6   4   5   1   4   2   4
+    > bengali_16    8  11   8   6   3   2   3  14   7   7   1   5   1   7   4   4
+    > gujarati_5    2   5   9   6   3   1   3  14   7   5   6   6   1   4   2   5
+    > gujarati_13   2   5   9   6   3   1   4  14   7   5   6   5   1   7   3   6
+    > gujarati_14   8   5   9   6   3   8   4   5   3   7   6   7   6   7   5   1
+
+### Agglomerative Hierarchical Clustering
+
+I am going to cluster the data using average link clustering. Average
+link clustering computes all pairwise dissimilarities between the
+elements, and considers the average of these dissimilarities as the
+distance between clusters
+
+``` r
+# Dissimilarity matrix
+d <- dist(clust_data, method = "euclidean")
+
+# Hierarchical clustering using Average Linkage
+hc1 <- hclust(d, method = "average" )
+
+# Plot the obtained dendrogram
+plot(hc1, cex = 0.6, hang = -1)
+```
+
+![](figures/unnamed-chunk-7-1.png)
+
+In the dendrogram displayed above, each leaf corresponds to one
+observation. As we move up the tree, observations that are similar to
+each other are combined into branches, which are themselves fused at a
+higher height.
+
+The height of the fusion, provided on the vertical axis, indicates the
+(dis)similarity between two observations. The higher the height of the
+fusion, the less similar the observations are. Note that, conclusions
+about the proximity of two observations can be drawn only based on the
+height where branches containing those two observations first are fused.
+We cannot use the proximity of two observations along the horizontal
+axis as a criteria of their similarity.
+
+The height of the cut to the dendrogram controls the number of clusters
+obtained. It plays the same role as the k in k-means clustering. In
+order to identify sub-groups (i.e. clusters), we can cut the dendrogram
+with cutree:
+
+``` r
+# Ward's method
+hc5 <- hclust(d, method = "average" )
+
+# Cut tree into 4 groups
+sub_grp <- cutree(hc5, k = 3)
+
+# Number of members in each cluster
+table(sub_grp)
+```
+
+    > sub_grp
+    >  1  2  3 
+    >  9 18 18
+
+``` r
+## sub_grp
+##  1  2  3  4 
+##  7 12 19 12
+```
+
+### Visualize clusters on dendrogram
+
+``` r
+plot(hc5, cex = 0.6)
+rect.hclust(hc5, k = 3, border = 2:5)
+```
+
+![](figures/unnamed-chunk-9-1.png)
+
+From this, we glean that 3 clusters seem to be adequate. Generally
+participants groups speakers into 3 clusters/groups:
+
+-   English/African into clust 1
+
+-   Indo/European into clust 2
+
+-   Asian into clust 3
+
+``` r
+clust_data <- clust_data %>%
+  mutate(cluster = sub_grp)
+```
+
+``` r
+fviz_cluster(list(data = clust_data, cluster = sub_grp))
+```
+
+![](figures/unnamed-chunk-11-1.png)
 
 Full Code
 =========
@@ -292,36 +220,60 @@ reproduced here.
 source("https://raw.githubusercontent.com/RealityBending/TemplateResults/main/utils/config.R")  
 
 fast <- FALSE  # Make this false to skip the chunks
-# This chunk is a bit complex so don't worry about it: it's made to add badges to the HTML versions
-# NOTE: You have to replace the links accordingly to have working "buttons" on the HTML versions
-if (!knitr::is_latex_output() && knitr::is_html_output()) {
-  cat("![Build](https://github.com/RealityBending/TemplateResults/workflows/Build/badge.svg)
-      [![Website](https://img.shields.io/badge/repo-Readme-2196F3)](https://github.com/RealityBending/TemplateResults)
-      [![Website](https://img.shields.io/badge/visit-website-E91E63)](https://realitybending.github.io/TemplateResults/)
-      [![Website](https://img.shields.io/badge/download-.docx-FF5722)](https://github.com/RealityBending/TemplateResults/raw/main/word_and_pdf/SupplementaryMaterials.docx)
-      [![Website](https://img.shields.io/badge/see-.pdf-FF9800)](https://github.com/RealityBending/TemplateResults/blob/main/word_and_pdf/SupplementaryMaterials.pdf)")
-}
-# Let's include a demo GIF (this doesn't work in PDF documents)
-if (!knitr::is_latex_output()) {
-  knitr::include_graphics("figures/demo.gif")
-}
 library(easystats)
 
 summary(report::report(sessionInfo()))
-df <- read.csv("data/data.csv")
-
-cat(paste("The data consists of",
-          report::report_participants(df,
-                                      participants = "Participant",
-                                      age = "Age")))
+df <- read_csv("data/class_wide_1.csv")
 report::cite_packages(sessionInfo())
-ggplot(df, aes(x=V1, y=V2, color=Participant)) + 
-  geom_point() +
-  see::theme_modern()
-plot(bayestestR::estimate_density(df[c("V1", "V2")])) +
-  see::theme_blackboard()
-model <- lm(Petal.Length ~ Sepal.Length, data=iris)
-performance::check_model(model)
+library(here)
+library(tidyverse)  # data manipulation
+library(cluster)    # clustering algorithms
+library(factoextra) # clustering visualization
+library(dendextend) # for comparing two dendrograms
+
+
+clust_data <- read_csv(here("data", "class_wide_1.csv")) # read in data
+
+clust_data <- select(clust_data, -X1, -`54`) # remove extra col sub 54 has weird formatting
+
+clust_data <- as.data.frame(clust_data) # turn into df 
+
+rownames(clust_data) <- clust_data$speaker # make row names speaker
+
+clust_data <- select(clust_data,-speaker) # remove extra col sub 54 has weird formatting
+
+head(clust_data)# show first couple rows
+
+# Dissimilarity matrix
+d <- dist(clust_data, method = "euclidean")
+
+# Hierarchical clustering using Average Linkage
+hc1 <- hclust(d, method = "average" )
+
+# Plot the obtained dendrogram
+plot(hc1, cex = 0.6, hang = -1)
+
+
+# Ward's method
+hc5 <- hclust(d, method = "average" )
+
+# Cut tree into 4 groups
+sub_grp <- cutree(hc5, k = 3)
+
+# Number of members in each cluster
+table(sub_grp)
+## sub_grp
+##  1  2  3  4 
+##  7 12 19 12
+
+plot(hc5, cex = 0.6)
+rect.hclust(hc5, k = 3, border = 2:5)
+
+
+clust_data <- clust_data %>%
+  mutate(cluster = sub_grp)
+
+fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
 Package References
@@ -331,56 +283,59 @@ Package References
 report::cite_packages(sessionInfo())
 ```
 
--   Ben-Shachar M, Lüdecke D, Makowski D (2020). effectsize: Estimation
-    of Effect Size Indices and Standardized Parameters. Journal of Open
-    Source Software, 5(56), 2815. doi: 10.21105/joss.02815
+-   Alboukadel Kassambara and Fabian Mundt (2020). factoextra: Extract
+    and Visualize the Results of Multivariate Data Analyses. R package
+    version 1.0.7. <https://CRAN.R-project.org/package=factoextra>
+-   Ben-Shachar, Makowski & Lüdecke (2020). Compute and interpret
+    indices of effect size. CRAN. Available from
+    <https://github.com/easystats/effectsize>.
 -   H. Wickham. ggplot2: Elegant Graphics for Data Analysis.
     Springer-Verlag New York, 2016.
 -   Hadley Wickham (2019). stringr: Simple, Consistent Wrappers for
     Common String Operations. R package version 1.4.0.
-    <a href="https://CRAN.R-project.org/package=stringr" class="uri">https://CRAN.R-project.org/package=stringr</a>
+    <https://CRAN.R-project.org/package=stringr>
+-   Hadley Wickham (2020). forcats: Tools for Working with Categorical
+    Variables (Factors). R package version 0.5.0.
+    <https://CRAN.R-project.org/package=forcats>
 -   Hadley Wickham (2020). tidyr: Tidy Messy Data. R package version
-    1.1.2.
-    <a href="https://CRAN.R-project.org/package=tidyr" class="uri">https://CRAN.R-project.org/package=tidyr</a>
--   Hadley Wickham (2021). forcats: Tools for Working with Categorical
-    Variables (Factors). R package version 0.5.1.
-    <a href="https://CRAN.R-project.org/package=forcats" class="uri">https://CRAN.R-project.org/package=forcats</a>
--   Hadley Wickham and Jim Hester (2020). readr: Read Rectangular Text
-    Data. R package version 1.4.0.
-    <a href="https://CRAN.R-project.org/package=readr" class="uri">https://CRAN.R-project.org/package=readr</a>
+    1.1.2. <https://CRAN.R-project.org/package=tidyr>
+-   Hadley Wickham, Jim Hester and Romain Francois (2018). readr: Read
+    Rectangular Text Data. R package version 1.3.1.
+    <https://CRAN.R-project.org/package=readr>
 -   Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
     (2021). dplyr: A Grammar of Data Manipulation. R package version
-    1.0.4.
-    <a href="https://CRAN.R-project.org/package=dplyr" class="uri">https://CRAN.R-project.org/package=dplyr</a>
+    1.0.3. <https://CRAN.R-project.org/package=dplyr>
 -   JJ Allaire and Yihui Xie and Jonathan McPherson and Javier Luraschi
     and Kevin Ushey and Aron Atkins and Hadley Wickham and Joe Cheng and
-    Winston Chang and Richard Iannone (2020). rmarkdown: Dynamic
-    Documents for R. R package version 2.6. URL
-    <a href="https://rmarkdown.rstudio.com" class="uri">https://rmarkdown.rstudio.com</a>.
+    Winston Chang and Richard Iannone (2021). rmarkdown: Dynamic
+    Documents for R. R package version 2.6.6. URL
+    <https://rmarkdown.rstudio.com>.
+-   Kirill Müller (2017). here: A Simpler Way to Find Your Files. R
+    package version 0.1. <https://CRAN.R-project.org/package=here>
 -   Kirill Müller and Hadley Wickham (2021). tibble: Simple Data Frames.
-    R package version 3.0.6.
-    <a href="https://CRAN.R-project.org/package=tibble" class="uri">https://CRAN.R-project.org/package=tibble</a>
+    R package version 3.0.6. <https://CRAN.R-project.org/package=tibble>
 -   Lionel Henry and Hadley Wickham (2020). purrr: Functional
     Programming Tools. R package version 0.3.4.
-    <a href="https://CRAN.R-project.org/package=purrr" class="uri">https://CRAN.R-project.org/package=purrr</a>
+    <https://CRAN.R-project.org/package=purrr>
 -   Lüdecke D, Ben-Shachar M, Patil I, Makowski D (2020).
     “parameters:Extracting, Computing and Exploring the Parameters of
-    StatisticalModels using R.” *Journal of Open Source Software*,
-    *5*(53), 2445.
-    <a href="doi:10.21105/joss.02445" class="uri">doi:10.21105/joss.02445</a>
-    (URL:
-    <a href="https://doi.org/10.21105/joss.02445" class="uri">https://doi.org/10.21105/joss.02445</a>).
+    Statistical Modelsusing R.” *Journal of Open Source Software*,
+    *5*(53), 2445. <doi:10.21105/joss.02445> (URL:
+    <https://doi.org/10.21105/joss.02445>).
 -   Lüdecke D, Waggoner P, Makowski D (2019). “insight: A Unified
-    Interfaceto Access Information from Model Objects in R.” *Journal of
+    Interface toAccess Information from Model Objects in R.” *Journal of
     Open SourceSoftware*, *4*(38), 1412. doi: 10.21105/joss.01412
-    (URL:<a href="https://doi.org/10.21105/joss.01412" class="uri">https://doi.org/10.21105/joss.01412</a>).
+    (URL:<https://doi.org/10.21105/joss.01412>).
 -   Lüdecke, Ben-Shachar, Waggoner & Makowski (2020). Visualisation
     Toolbox for ‘easystats’ and Extra Geoms, Themes and Color Palettes
-    for ‘ggplot2’. CRAN. Available from
-    <a href="https://easystats.github.io/see/" class="uri">https://easystats.github.io/see/</a>
+    for ‘ggplot2.’ CRAN. Available from
+    <https://easystats.github.io/see/>
 -   Lüdecke, Makowski, Waggoner & Patil (2020). Assessment of Regression
     Models Performance. CRAN. Available from
-    <a href="https://easystats.github.io/performance/" class="uri">https://easystats.github.io/performance/</a>
+    <https://easystats.github.io/performance/>
+-   Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik,
+    K.(2021). cluster: Cluster Analysis Basics and Extensions. R package
+    version 2.1.1.
 -   Makowski, D., Ben-Shachar, M. S. & Lüdecke, D. (2020). *Estimation
     of Model-Based Predictions, Contrasts and Means*. CRAN.
 -   Makowski, D., Ben-Shachar, M. S. & Lüdecke, D. (2020). *The
@@ -391,24 +346,19 @@ report::cite_packages(sessionInfo())
 -   Makowski, D., Ben-Shachar, M., & Lüdecke, D. (2019). bayestestR:
     Describing Effects and their Uncertainty, Existence and Significance
     within the Bayesian Framework. Journal of Open Source Software,
-    4(40), 1541.
-    <a href="doi:10.21105/joss.01541" class="uri">doi:10.21105/joss.01541</a>
+    4(40), 1541. <doi:10.21105/joss.01541>
 -   Makowski, D., Lüdecke, D., & Ben-Shachar, M.S. (2020). Automated
     reporting as a practical tool to improve reproducibility and
     methodological best practices adoption. CRAN. Available from
-    <a href="https://github.com/easystats/report" class="uri">https://github.com/easystats/report</a>.
-    doi: .
+    <https://github.com/easystats/report>. doi: .
 -   R Core Team (2020). R: A language and environment for statistical
     computing. R Foundation for Statistical Computing, Vienna, Austria.
-    URL
-    <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.
+    URL <https://www.R-project.org/>.
+-   Tal Galili (2015). dendextend: an R package for visualizing,
+    adjusting, and comparing trees of hierarchical clustering.
+    Bioinformatics. DOI: 10.1093/bioinformatics/btv428
 -   Wickham et al., (2019). Welcome to the tidyverse. Journal of Open
-    Source Software, 4(43), 1686,
-    <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a>
+    Source Software, 4(43), 1686, <https://doi.org/10.21105/joss.01686>
 
 References
 ==========
-
-Lüdecke, D., Waggoner, P. D., & Makowski, D. (2019). Insight: A unified
-interface to access information from model objects in r. *Journal of
-Open Source Software*, *4*(38), 1412.
