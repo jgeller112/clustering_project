@@ -1678,10 +1678,9 @@ div.tocify {
 <!-- 
 !!!! IMPORTANT: run `source("utils/render.R")` to publish instead of clicking on 'Knit'
 -->
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
 <div id="data" class="section level2">
 <h2>Data</h2>
+<p>We have data in wide format. Each row is a talker type and each col is a participant.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/class_wide_1.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -1691,12 +1690,11 @@ div.tocify {
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
 </div>
-</div>
 <div id="clustering" class="section level1">
 <h1>Clustering</h1>
-<div id="introduction-1" class="section level2">
+<div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>In this task, individuals heard spoken speech tokens and freely classified them into groups. Using hierarchical clustering we aim to see what clusters or groups appear as a result of the free classification task.</p>
+<p>In this task, individuals heard spoken speech tokens and freely classified them into groups. Using hierarchical clustering we aimed to see what clusters or groups appear as a result of the free classification task.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># data manipulation</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)    <span class="co"># clustering algorithms</span></span>
@@ -1707,7 +1705,7 @@ div.tocify {
 <ol style="list-style-type: decimal">
 <li>Rows are observations (individuals) and columns are variables</li>
 <li>Any missing value in the data must be removed or estimated.</li>
-<li>The data must be standardized (i.e., scaled) to make variables comparable (I am not doing this here)</li>
+<li>The data must be standardized (i.e., scaled) to make variables comparable (I am not doing this here).</li>
 </ol>
 </div>
 <div id="read-in-the-data" class="section level3">
@@ -2544,7 +2542,7 @@ div.tocify {
 <h1>References</h1>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAnRnJlZSBDbGFzc2lmaWNhdGlvbjogQ2x1c3RlcmluZyBQcm9qZWN0JwpzdWJ0aXRsZTogQ2x1c3RlcmluZwpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIHRoZW1lOiBjZXJ1bGVhbgogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIG51bWJlcl9zZWN0aW9uczogbm8KICAgIGRmX3ByaW50OiBrYWJsZQogICAgY29kZV9mb2xkaW5nOiBoaWRlCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICB3b3JkX2RvY3VtZW50OgogICAgcmVmZXJlbmNlX2RvY3g6IHV0aWxzL1RlbXBsYXRlX1dvcmQuZG9jeAogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiBubwogICAgdG9jX2RlcHRoOiAzCiAgICBkZl9wcmludDoga2FibGUKICAgIG51bWJlcl9zZWN0aW9uczogeWVzCiAgcm1hcmtkb3duOjpodG1sX3ZpZ25ldHRlOgogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogeWVzCiAgICB0b2NfZGVwdGg6ICcyJwogICAgbGF0ZXhfZW5naW5lOiB4ZWxhdGV4CmVkaXRvcl9vcHRpb25zOgogIGNodW5rX291dHB1dF90eXBlOiBjb25zb2xlCmJpYmxpb2dyYXBoeTogdXRpbHMvYmlibGlvZ3JhcGh5LmJpYgpjc2w6IHV0aWxzL2FwYS5jc2wKLS0tCgoKPCEtLSAKISEhISBJTVBPUlRBTlQ6IHJ1biBgc291cmNlKCJ1dGlscy9yZW5kZXIuUiIpYCB0byBwdWJsaXNoIGluc3RlYWQgb2YgY2xpY2tpbmcgb24gJ0tuaXQnCi0tPgoKCiMgSW50cm9kdWN0aW9uCgoKIyMgRGF0YQoKYGBge3Igd2FybmluZz1GQUxTRSwgbWVzc2FnZT1UUlVFLCByZXN1bHRzPSdhc2lzJ30KZGYgPC0gcmVhZF9jc3YoImRhdGEvY2xhc3Nfd2lkZV8xLmNzdiIpCmBgYAoKCmBgYHtyIGNoaWxkPWlmIChmYXN0ID09IEZBTFNFKSAnMV9jbHVzdGVyaW5nLlJtZCd9CmBgYAoKIyBGdWxsIENvZGUKClRoZSBmdWxsIHNjcmlwdCBvZiBleGVjdXRpdmUgY29kZSBjb250YWluZWQgaW4gdGhpcyBkb2N1bWVudCBpcyByZXByb2R1Y2VkIGhlcmUuCgpgYGB7ciBmdWxsX2NvZGUsIHJlZi5sYWJlbD1rbml0cjo6YWxsX2xhYmVscygpLCBldmFsPUZBTFNFfQpgYGAKCgojIFJlZmVyZW5jZXMK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAnRnJlZSBDbGFzc2lmaWNhdGlvbjogQ2x1c3RlcmluZyBQcm9qZWN0JwpzdWJ0aXRsZTogQ2x1c3RlcmluZwpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIHRoZW1lOiBjZXJ1bGVhbgogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIG51bWJlcl9zZWN0aW9uczogbm8KICAgIGRmX3ByaW50OiBrYWJsZQogICAgY29kZV9mb2xkaW5nOiBoaWRlCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICB3b3JkX2RvY3VtZW50OgogICAgcmVmZXJlbmNlX2RvY3g6IHV0aWxzL1RlbXBsYXRlX1dvcmQuZG9jeAogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiBubwogICAgdG9jX2RlcHRoOiAzCiAgICBkZl9wcmludDoga2FibGUKICAgIG51bWJlcl9zZWN0aW9uczogeWVzCiAgcm1hcmtkb3duOjpodG1sX3ZpZ25ldHRlOgogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogeWVzCiAgICB0b2NfZGVwdGg6ICcyJwogICAgbGF0ZXhfZW5naW5lOiB4ZWxhdGV4CmVkaXRvcl9vcHRpb25zOgogIGNodW5rX291dHB1dF90eXBlOiBjb25zb2xlCmJpYmxpb2dyYXBoeTogdXRpbHMvYmlibGlvZ3JhcGh5LmJpYgpjc2w6IHV0aWxzL2FwYS5jc2wKLS0tCgoKPCEtLSAKISEhISBJTVBPUlRBTlQ6IHJ1biBgc291cmNlKCJ1dGlscy9yZW5kZXIuUiIpYCB0byBwdWJsaXNoIGluc3RlYWQgb2YgY2xpY2tpbmcgb24gJ0tuaXQnCi0tPgoKCiMjIERhdGEKCldlIGhhdmUgZGF0YSBpbiB3aWRlIGZvcm1hdC4gRWFjaCByb3cgaXMgYSB0YWxrZXIgdHlwZSBhbmQgZWFjaCBjb2wgaXMgYSBwYXJ0aWNpcGFudC4gCgpgYGB7ciB3YXJuaW5nPUZBTFNFLCBtZXNzYWdlPVRSVUUsIHJlc3VsdHM9J2FzaXMnfQpkZiA8LSByZWFkX2NzdigiZGF0YS9jbGFzc193aWRlXzEuY3N2IikKYGBgCgoKYGBge3IgY2hpbGQ9aWYgKGZhc3QgPT0gRkFMU0UpICcxX2NsdXN0ZXJpbmcuUm1kJ30KYGBgCgojIEZ1bGwgQ29kZQoKVGhlIGZ1bGwgc2NyaXB0IG9mIGV4ZWN1dGl2ZSBjb2RlIGNvbnRhaW5lZCBpbiB0aGlzIGRvY3VtZW50IGlzIHJlcHJvZHVjZWQgaGVyZS4KCmBgYHtyIGZ1bGxfY29kZSwgcmVmLmxhYmVsPWtuaXRyOjphbGxfbGFiZWxzKCksIGV2YWw9RkFMU0V9CmBgYAoKCiMgUmVmZXJlbmNlcwo=</div>
 
 
 </div>

@@ -38,10 +38,9 @@ csl: utils/apa.csl
 -->
 
 
-# Introduction
-
-
 ## Data
+
+We have data in wide format. Each row is a talker type and each col is a participant. 
 
 ```{r warning=FALSE, message=TRUE, results='asis'}
 df <- read_csv("data/class_wide_1.csv")

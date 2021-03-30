@@ -2,11 +2,11 @@
 !!!! IMPORTANT: run `source("utils/render.R")` to publish instead of clicking on 'Knit'
 -->
 
-Introduction
-============
-
 Data
 ----
+
+We have data in wide format. Each row is a talker type and each col is a
+participant.
 
 ``` r
 df <- read_csv("data/class_wide_1.csv")
@@ -28,9 +28,9 @@ Introduction
 ------------
 
 In this task, individuals heard spoken speech tokens and freely
-classified them into groups. Using hierarchical clustering we aim to see
-what clusters or groups appear as a result of the free classification
-task.
+classified them into groups. Using hierarchical clustering we aimed to
+see what clusters or groups appear as a result of the free
+classification task.
 
 ``` r
 library(here)
@@ -45,7 +45,7 @@ library(dendextend) # for comparing two dendrograms
 1.  Rows are observations (individuals) and columns are variables
 2.  Any missing value in the data must be removed or estimated.
 3.  The data must be standardized (i.e., scaled) to make variables
-    comparable (I am not doing this here)
+    comparable (I am not doing this here).
 
 ### Read in the data
 
