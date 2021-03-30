@@ -37,22 +37,8 @@ csl: utils/apa.csl
 !!!! IMPORTANT: run `source("utils/render.R")` to publish instead of clicking on 'Knit'
 -->
 
-```{r setup, warning=FALSE, message=TRUE, include=FALSE}
-# Set up the environment (or use local alternative `source("utils/config.R")`)
-source("https://raw.githubusercontent.com/RealityBending/TemplateResults/main/utils/config.R")  
-
-fast <- FALSE  # Make this false to skip the chunks
-```
 
 # Introduction
-
-
-
-```{r warning=FALSE, message=TRUE, results='asis'}
-library(easystats)
-
-summary(report::report(sessionInfo()))
-```
 
 
 ## Data
