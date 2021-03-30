@@ -5,22 +5,6 @@
 Introduction
 ============
 
-``` r
-library(easystats)
-
-summary(report::report(sessionInfo()))
-```
-
-The analysis was done using the R Statistical language (v4.0.2; R Core
-Team, 2020) on macOS Catalina 10.15.6, using the packages factoextra
-(v1.0.7), effectsize (v0.4.1), ggplot2 (v3.3.2), stringr (v1.4.0),
-forcats (v0.5.0), tidyr (v1.1.2), readr (v1.3.1), dplyr (v1.0.3),
-rmarkdown (v2.6.6), here (v0.1), tibble (v3.0.6), purrr (v0.3.4),
-parameters (v0.10.1.1), insight (v0.11.1.1), see (v0.6.1.1), performance
-(v0.6.1.1), cluster (v2.1.1), modelbased (v0.4.0), easystats (v0.2.0),
-correlation (v0.5.0), bayestestR (v0.8.0.1), report (v0.2.0), dendextend
-(v1.14.0) and tidyverse (v1.3.0).
-
 Data
 ----
 
@@ -28,14 +12,14 @@ Data
 df <- read_csv("data/class_wide_1.csv")
 ```
 
-    > Parsed with column specification:
-    > cols(
-    >   .default = col_double(),
-    >   speaker = col_character(),
-    >   `54` = col_character()
-    > )
+    ## Parsed with column specification:
+    ## cols(
+    ##   .default = col_double(),
+    ##   speaker = col_character(),
+    ##   `54` = col_character()
+    ## )
 
-    > See spec(...) for full column specifications.
+    ## See spec(...) for full column specifications.
 
 Clustering
 ==========
@@ -69,16 +53,16 @@ library(dendextend) # for comparing two dendrograms
 clust_data <- read_csv(here("data", "class_wide_1.csv")) # read in data
 ```
 
-    > Warning: Missing column names filled in: 'X1' [1]
+    ## Warning: Missing column names filled in: 'X1' [1]
 
-    > Parsed with column specification:
-    > cols(
-    >   .default = col_double(),
-    >   speaker = col_character(),
-    >   `54` = col_character()
-    > )
+    ## Parsed with column specification:
+    ## cols(
+    ##   .default = col_double(),
+    ##   speaker = col_character(),
+    ##   `54` = col_character()
+    ## )
 
-    > See spec(...) for full column specifications.
+    ## See spec(...) for full column specifications.
 
 ``` r
 clust_data <- select(clust_data, -X1, -`54`) # remove extra col sub 54 has weird formatting
@@ -92,34 +76,34 @@ clust_data <- select(clust_data,-speaker) # remove extra col sub 54 has weird fo
 head(clust_data)# show first couple rows
 ```
 
-    >             8 7 1 10 11 12 14 15 16 17 18 19 2 20 23 25 26 27 28 29  3 30 31 32 33
-    > bengali_9   1 5 5  1 11  2  1  8  4  2  2  1 9  7  4  5  1  1  1 11  5  1  7  7  9
-    > bengali_13  6 5 5  7 14  4  2  7  4  2  6  3 9  1  4  5  4  2  3 11 12  1  8 11  9
-    > bengali_16  1 5 5  7  7  4  3  6  2  8  3  3 3  1  3  4  6  1  3 10  2  1  7  8  9
-    > gujarati_5  4 5 5  1 14  4  1  7  4  9  9  1 9  4  3  5  4  2  4  8  9  1  7  9  9
-    > gujarati_13 1 5 5  1 15  4  2  8  4  2  6  1 9  4  5  5  6  2  4  8  5  1  7  9  9
-    > gujarati_14 5 5 5  1  7  4  1  8  4  9  9  3 9  5  7  5  4  4  6  1  5  1  6  9  9
-    >             34 35 36 38 4 40 41 42 43 44 45 46 47 48 49  5 50 51 52 53 55 56 58 59
-    > bengali_9    8 10  8  1 3  1 10  1  1 12  1  5  1  5  8  1  3  7  1  8  9  1  1  5
-    > bengali_13   8 10 11  1 4 12  1  1  8 11  1  5  4  1  8  5  4  7  3  8  9  1  8 11
-    > bengali_16   8 10 11  6 3  8  8  1  8 11  1  1  2  5  7  5  4  7  3  8  9  8  1  6
-    > gujarati_5   6 10  8  1 2  8  7  1  8  8  3 11  2  2  8 10  3  7 11  8  9  7  3 11
-    > gujarati_13  8 10  2  1 2 12  1  1  8 11  1 11  6  5  8  2  4  7  1  8  9  7 10  5
-    > gujarati_14  6 10  9  1 4 13  2  1  8 11  6  3  4  5  8  3  3  7 15  8  8  8  6  5
-    >             6 78 87 90 91 96 105 110 111 115 121 123 125 132 133 135 148 151 152
-    > bengali_9   9  1 11  1 11  1   6  11   1   2   1   9   1   3   1   1   1   5   1
-    > bengali_13  7  1 11  1 11  1   6  11   7   8   6   9   1   6   2   3   6   9   1
-    > bengali_16  7  5 11  2  6  1   6  10   6   8   6  10  10   4   2   3   1   7   4
-    > gujarati_5  7  1 11  2 10  1   1  11   6   8   6   9  10   4   3   2   3   5   3
-    > gujarati_13 7  1 11  2 11  1   6  11   2   8   6   9  10   4   2   1   1   5   1
-    > gujarati_14 6  2 11  8 11  1   6  11   6   9   6   9   8   4   2   1   2   5   3
-    >             153 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169
-    > bengali_9     8   4   8   6   5   1   5   1   7   4   1   5   1   7   1   2
-    > bengali_13    8   4  10   6   5   2   1  14   7   6   4   5   1   4   2   4
-    > bengali_16    8  11   8   6   3   2   3  14   7   7   1   5   1   7   4   4
-    > gujarati_5    2   5   9   6   3   1   3  14   7   5   6   6   1   4   2   5
-    > gujarati_13   2   5   9   6   3   1   4  14   7   5   6   5   1   7   3   6
-    > gujarati_14   8   5   9   6   3   8   4   5   3   7   6   7   6   7   5   1
+    ##             8 7 1 10 11 12 14 15 16 17 18 19 2 20 23 25 26 27 28 29  3 30 31 32 33
+    ## bengali_9   1 5 5  1 11  2  1  8  4  2  2  1 9  7  4  5  1  1  1 11  5  1  7  7  9
+    ## bengali_13  6 5 5  7 14  4  2  7  4  2  6  3 9  1  4  5  4  2  3 11 12  1  8 11  9
+    ## bengali_16  1 5 5  7  7  4  3  6  2  8  3  3 3  1  3  4  6  1  3 10  2  1  7  8  9
+    ## gujarati_5  4 5 5  1 14  4  1  7  4  9  9  1 9  4  3  5  4  2  4  8  9  1  7  9  9
+    ## gujarati_13 1 5 5  1 15  4  2  8  4  2  6  1 9  4  5  5  6  2  4  8  5  1  7  9  9
+    ## gujarati_14 5 5 5  1  7  4  1  8  4  9  9  3 9  5  7  5  4  4  6  1  5  1  6  9  9
+    ##             34 35 36 38 4 40 41 42 43 44 45 46 47 48 49  5 50 51 52 53 55 56 58 59
+    ## bengali_9    8 10  8  1 3  1 10  1  1 12  1  5  1  5  8  1  3  7  1  8  9  1  1  5
+    ## bengali_13   8 10 11  1 4 12  1  1  8 11  1  5  4  1  8  5  4  7  3  8  9  1  8 11
+    ## bengali_16   8 10 11  6 3  8  8  1  8 11  1  1  2  5  7  5  4  7  3  8  9  8  1  6
+    ## gujarati_5   6 10  8  1 2  8  7  1  8  8  3 11  2  2  8 10  3  7 11  8  9  7  3 11
+    ## gujarati_13  8 10  2  1 2 12  1  1  8 11  1 11  6  5  8  2  4  7  1  8  9  7 10  5
+    ## gujarati_14  6 10  9  1 4 13  2  1  8 11  6  3  4  5  8  3  3  7 15  8  8  8  6  5
+    ##             6 78 87 90 91 96 105 110 111 115 121 123 125 132 133 135 148 151 152
+    ## bengali_9   9  1 11  1 11  1   6  11   1   2   1   9   1   3   1   1   1   5   1
+    ## bengali_13  7  1 11  1 11  1   6  11   7   8   6   9   1   6   2   3   6   9   1
+    ## bengali_16  7  5 11  2  6  1   6  10   6   8   6  10  10   4   2   3   1   7   4
+    ## gujarati_5  7  1 11  2 10  1   1  11   6   8   6   9  10   4   3   2   3   5   3
+    ## gujarati_13 7  1 11  2 11  1   6  11   2   8   6   9  10   4   2   1   1   5   1
+    ## gujarati_14 6  2 11  8 11  1   6  11   6   9   6   9   8   4   2   1   2   5   3
+    ##             153 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169
+    ## bengali_9     8   4   8   6   5   1   5   1   7   4   1   5   1   7   1   2
+    ## bengali_13    8   4  10   6   5   2   1  14   7   6   4   5   1   4   2   4
+    ## bengali_16    8  11   8   6   3   2   3  14   7   7   1   5   1   7   4   4
+    ## gujarati_5    2   5   9   6   3   1   3  14   7   5   6   6   1   4   2   5
+    ## gujarati_13   2   5   9   6   3   1   4  14   7   5   6   5   1   7   3   6
+    ## gujarati_14   8   5   9   6   3   8   4   5   3   7   6   7   6   7   5   1
 
 ### Agglomerative Hierarchical Clustering
 
@@ -139,7 +123,7 @@ hc1 <- hclust(d, method = "average" )
 plot(hc1, cex = 0.6, hang = -1)
 ```
 
-![](figures/unnamed-chunk-7-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 In the dendrogram displayed above, each leaf corresponds to one
 observation. As we move up the tree, observations that are similar to
@@ -170,9 +154,9 @@ sub_grp <- cutree(hc5, k = 3)
 table(sub_grp)
 ```
 
-    > sub_grp
-    >  1  2  3 
-    >  9 18 18
+    ## sub_grp
+    ##  1  2  3 
+    ##  9 18 18
 
 ``` r
 ## sub_grp
@@ -187,7 +171,7 @@ plot(hc5, cex = 0.6)
 rect.hclust(hc5, k = 3, border = 2:5)
 ```
 
-![](figures/unnamed-chunk-9-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 From this, we glean that 3 clusters seem to be adequate. Generally
 participants groups speakers into 3 clusters/groups:
@@ -207,7 +191,7 @@ clust_data <- clust_data %>%
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
-![](figures/unnamed-chunk-11-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 Full Code
 =========
@@ -216,13 +200,6 @@ The full script of executive code contained in this document is
 reproduced here.
 
 ``` r
-# Set up the environment (or use local alternative `source("utils/config.R")`)
-source("https://raw.githubusercontent.com/RealityBending/TemplateResults/main/utils/config.R")  
-
-fast <- FALSE  # Make this false to skip the chunks
-library(easystats)
-
-summary(report::report(sessionInfo()))
 df <- read_csv("data/class_wide_1.csv")
 report::cite_packages(sessionInfo())
 library(here)
