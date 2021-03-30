@@ -1,5 +1,5 @@
 ---
-title: '**Results Template**'
+title: 'Free Classification: Clustering Project'
 subtitle: Clustering
 output:
   html_document:
@@ -56,12 +56,6 @@ df <- read_csv("data/class_wide_1.csv")
 The full script of executive code contained in this document is reproduced here.
 
 ```{r full_code, ref.label=knitr::all_labels(), eval=FALSE}
-```
-
-# Package References
-
-```{r warning=FALSE, message=FALSE, results='asis'}
-report::cite_packages(sessionInfo())
 ```
 
 

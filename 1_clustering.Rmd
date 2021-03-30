@@ -45,7 +45,8 @@ head(clust_data)# show first couple rows
 
 ### Agglomerative Hierarchical Clustering
 
-I am going to cluster the data  using average link clustering. Average link clustering computes all pairwise dissimilarities between the elements, and considers the average of these dissimilarities as the distance between clusters
+I am going to cluster the data  using average link clustering. Average link clustering computes all pairwise dissimilarities between the elements, and considers the average of these dissimilarities as the distance between clusters. 
+
 ```{r}
 # Dissimilarity matrix
 d <- dist(clust_data, method = "euclidean")
@@ -92,11 +93,11 @@ rect.hclust(hc5, k = 3, border = 2:5)
 
 From this, we glean that 3 clusters seem to be adequate. Generally participants groups speakers into 3 clusters/groups:  
 
-- English/African into clust 1
+- English/African: Clust 1
 
-- Indo/European into clust 2 
+- Indo/European: Clust  2 
 
-- Asian into clust 3
+- Asian: Clust 3
 
 ```{r}
 
@@ -104,6 +105,7 @@ clust_data <- clust_data %>%
   mutate(cluster = sub_grp)
 
 ```
+
 
 ```{r}
 fviz_cluster(list(data = clust_data, cluster = sub_grp))

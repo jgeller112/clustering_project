@@ -110,7 +110,7 @@ head(clust_data)# show first couple rows
 I am going to cluster the data using average link clustering. Average
 link clustering computes all pairwise dissimilarities between the
 elements, and considers the average of these dissimilarities as the
-distance between clusters
+distance between clusters.
 
 ``` r
 # Dissimilarity matrix
@@ -123,7 +123,7 @@ hc1 <- hclust(d, method = "average" )
 plot(hc1, cex = 0.6, hang = -1)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 In the dendrogram displayed above, each leaf corresponds to one
 observation. As we move up the tree, observations that are similar to
@@ -171,16 +171,16 @@ plot(hc5, cex = 0.6)
 rect.hclust(hc5, k = 3, border = 2:5)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 From this, we glean that 3 clusters seem to be adequate. Generally
 participants groups speakers into 3 clusters/groups:
 
--   English/African into clust 1
+-   English/African: Clust 1
 
--   Indo/European into clust 2
+-   Indo/European: Clust 2
 
--   Asian into clust 3
+-   Asian: Clust 3
 
 ``` r
 clust_data <- clust_data %>%
@@ -191,7 +191,7 @@ clust_data <- clust_data %>%
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 Full Code
 =========
@@ -201,7 +201,6 @@ reproduced here.
 
 ``` r
 df <- read_csv("data/class_wide_1.csv")
-report::cite_packages(sessionInfo())
 library(here)
 library(tidyverse)  # data manipulation
 library(cluster)    # clustering algorithms
@@ -252,90 +251,6 @@ clust_data <- clust_data %>%
 
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
-
-Package References
-==================
-
-``` r
-report::cite_packages(sessionInfo())
-```
-
--   Alboukadel Kassambara and Fabian Mundt (2020). factoextra: Extract
-    and Visualize the Results of Multivariate Data Analyses. R package
-    version 1.0.7. <https://CRAN.R-project.org/package=factoextra>
--   Ben-Shachar, Makowski & Lüdecke (2020). Compute and interpret
-    indices of effect size. CRAN. Available from
-    <https://github.com/easystats/effectsize>.
--   H. Wickham. ggplot2: Elegant Graphics for Data Analysis.
-    Springer-Verlag New York, 2016.
--   Hadley Wickham (2019). stringr: Simple, Consistent Wrappers for
-    Common String Operations. R package version 1.4.0.
-    <https://CRAN.R-project.org/package=stringr>
--   Hadley Wickham (2020). forcats: Tools for Working with Categorical
-    Variables (Factors). R package version 0.5.0.
-    <https://CRAN.R-project.org/package=forcats>
--   Hadley Wickham (2020). tidyr: Tidy Messy Data. R package version
-    1.1.2. <https://CRAN.R-project.org/package=tidyr>
--   Hadley Wickham, Jim Hester and Romain Francois (2018). readr: Read
-    Rectangular Text Data. R package version 1.3.1.
-    <https://CRAN.R-project.org/package=readr>
--   Hadley Wickham, Romain François, Lionel Henry and Kirill Müller
-    (2021). dplyr: A Grammar of Data Manipulation. R package version
-    1.0.3. <https://CRAN.R-project.org/package=dplyr>
--   JJ Allaire and Yihui Xie and Jonathan McPherson and Javier Luraschi
-    and Kevin Ushey and Aron Atkins and Hadley Wickham and Joe Cheng and
-    Winston Chang and Richard Iannone (2021). rmarkdown: Dynamic
-    Documents for R. R package version 2.6.6. URL
-    <https://rmarkdown.rstudio.com>.
--   Kirill Müller (2017). here: A Simpler Way to Find Your Files. R
-    package version 0.1. <https://CRAN.R-project.org/package=here>
--   Kirill Müller and Hadley Wickham (2021). tibble: Simple Data Frames.
-    R package version 3.0.6. <https://CRAN.R-project.org/package=tibble>
--   Lionel Henry and Hadley Wickham (2020). purrr: Functional
-    Programming Tools. R package version 0.3.4.
-    <https://CRAN.R-project.org/package=purrr>
--   Lüdecke D, Ben-Shachar M, Patil I, Makowski D (2020).
-    “parameters:Extracting, Computing and Exploring the Parameters of
-    Statistical Modelsusing R.” *Journal of Open Source Software*,
-    *5*(53), 2445. <doi:10.21105/joss.02445> (URL:
-    <https://doi.org/10.21105/joss.02445>).
--   Lüdecke D, Waggoner P, Makowski D (2019). “insight: A Unified
-    Interface toAccess Information from Model Objects in R.” *Journal of
-    Open SourceSoftware*, *4*(38), 1412. doi: 10.21105/joss.01412
-    (URL:<https://doi.org/10.21105/joss.01412>).
--   Lüdecke, Ben-Shachar, Waggoner & Makowski (2020). Visualisation
-    Toolbox for ‘easystats’ and Extra Geoms, Themes and Color Palettes
-    for ‘ggplot2.’ CRAN. Available from
-    <https://easystats.github.io/see/>
--   Lüdecke, Makowski, Waggoner & Patil (2020). Assessment of Regression
-    Models Performance. CRAN. Available from
-    <https://easystats.github.io/performance/>
--   Maechler, M., Rousseeuw, P., Struyf, A., Hubert, M., Hornik,
-    K.(2021). cluster: Cluster Analysis Basics and Extensions. R package
-    version 2.1.1.
--   Makowski, D., Ben-Shachar, M. S. & Lüdecke, D. (2020). *Estimation
-    of Model-Based Predictions, Contrasts and Means*. CRAN.
--   Makowski, D., Ben-Shachar, M. S. & Lüdecke, D. (2020). *The
-    {easystats} collection of R packages*. GitHub.
--   Makowski, D., Ben-Shachar, M. S., Patil, I., & Lüdecke, D. (2019).
-    Methods and Algorithms for Correlation Analysis in R. Journal of
-    Open Source Software, 5(51), 2306. 10.21105/joss.02306
--   Makowski, D., Ben-Shachar, M., & Lüdecke, D. (2019). bayestestR:
-    Describing Effects and their Uncertainty, Existence and Significance
-    within the Bayesian Framework. Journal of Open Source Software,
-    4(40), 1541. <doi:10.21105/joss.01541>
--   Makowski, D., Lüdecke, D., & Ben-Shachar, M.S. (2020). Automated
-    reporting as a practical tool to improve reproducibility and
-    methodological best practices adoption. CRAN. Available from
-    <https://github.com/easystats/report>. doi: .
--   R Core Team (2020). R: A language and environment for statistical
-    computing. R Foundation for Statistical Computing, Vienna, Austria.
-    URL <https://www.R-project.org/>.
--   Tal Galili (2015). dendextend: an R package for visualizing,
-    adjusting, and comparing trees of hierarchical clustering.
-    Bioinformatics. DOI: 10.1093/bioinformatics/btv428
--   Wickham et al., (2019). Welcome to the tidyverse. Journal of Open
-    Source Software, 4(43), 1686, <https://doi.org/10.21105/joss.01686>
 
 References
 ==========
