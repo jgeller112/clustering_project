@@ -173,8 +173,8 @@ rect.hclust(hc5, k = 3, border = 2:5)
 
 ![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
-From this, we glean that 3 clusters seem to be adequate. Generally
-participants groups speakers into 3 clusters/groups:
+From this, we glean that 3 clusters appear to be adequate. Generally
+participants grouped speakers into 3 clusters/groups:
 
 -   English/African: Clust 1
 
@@ -186,6 +186,8 @@ participants groups speakers into 3 clusters/groups:
 clust_data <- clust_data %>%
   mutate(cluster = sub_grp)
 ```
+
+### Visualize Clusters
 
 ``` r
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
