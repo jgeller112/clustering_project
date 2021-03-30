@@ -142,8 +142,6 @@ ggplot(criteria, aes(x=k)) +
 
 ```
 
-
 # Conclusion
-
 I ran a hierarchical clustering analysis using the average link method to classify talkers in a free classification task. This analysis determined that 3 clusters were adequate to explain the free classification task.  A common method for choosing the optimal number of clusters is the “elbow method”, which simply means picking the point on the plot where increasing the value of k results in only marginal gains. Here we have determined that 3 clusters were sufficient to explain the data. 
 

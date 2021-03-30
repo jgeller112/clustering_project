@@ -32,6 +32,18 @@ classified them into groups. Using hierarchical clustering we aimed to
 see what clusters or groups appear as a result of the free
 classification task.
 
+45 speech samples were selected from The Speech Accent Archive. The
+talkers included three American English regional dialects, three
+international English dialects, and nine nonnative accents. The
+nonnative accents were split into three accents from East Asia, three
+accents from South Asia, and three accents from Southeast Asia. The
+American English dialects included the New England dialect, the Southern
+dialect, and the Midland dialect. The international English dialects
+included British English, Australian English, and Africaans. The native
+languages of the nonnative-accented talkers were Mandarin, Korean, and
+Japanese from East Asia, Bengali, Gujarati, and Urdu from South Asia,
+and Indonesian, Tagalog, and Thai from Southeast Asia.
+
 ``` r
 library(here)
 library(tidyverse)  # data manipulation
@@ -105,12 +117,19 @@ head(clust_data)# show first couple rows
     ## gujarati_13   2   5   9   6   3   1   4  14   7   5   6   5   1   7   3   6
     ## gujarati_14   8   5   9   6   3   8   4   5   3   7   6   7   6   7   5   1
 
-### Agglomerative Hierarchical Clustering
+Agglomerative Hierarchical Clustering
+-------------------------------------
 
 I am going to cluster the data using average link clustering. Average
 link clustering computes all pairwise dissimilarities between the
 elements, and considers the average of these dissimilarities as the
 distance between clusters.
+
+First, we calculate the dissimilarity matrix using euclidean distance.
+
+Second, we comput the clustering with average link.
+
+Third, we plot the cluster solution
 
 ``` r
 # Dissimilarity matrix
@@ -147,7 +166,7 @@ with cutree:
 # Ward's method
 hc5 <- hclust(d, method = "average" )
 
-# Cut tree into 4 groups
+# Cut tree into 3 groups
 sub_grp <- cutree(hc5, k = 3)
 
 # Number of members in each cluster
@@ -157,12 +176,6 @@ table(sub_grp)
     ## sub_grp
     ##  1  2  3 
     ##  9 18 18
-
-``` r
-## sub_grp
-##  1  2  3  4 
-##  7 12 19 12
-```
 
 ### Visualize clusters on dendrogram
 
@@ -194,6 +207,42 @@ fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
+
+``` r
+#making a empty dataframe
+criteria <- data.frame()
+#setting range of k                   
+nk <- 1:20
+#loop for range of clusters
+for (k in nk) {
+model <- kmeans(clust_data, k)
+criteria <- rbind(criteria,c(k,model$tot.withinss,model$betweenss,model$totss))
+}
+#renaming columns
+names(criteria) <- c("k","tot.withinss","betweenss","totalss")
+
+#scree plot
+ggplot(criteria, aes(x=k)) +
+  geom_point(aes(y=tot.withinss),color="red") +
+  geom_line(aes(y=tot.withinss),color="red") +
+  geom_point(aes(y=betweenss),color="blue") +
+  geom_line(aes(y=betweenss),color="blue") +
+  xlab("k = number of clusters") + ylab("Sum of Squares (within = red, between = blue)")
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+
+Conclusion
+==========
+
+I ran a hierarchical clustering analysis using the average link method
+to classify talkers in a free classification task. This analysis
+determined that 3 clusters were adequate to explain the free
+classification task. A common method for choosing the optimal number of
+clusters is the “elbow method,” which simply means picking the point on
+the plot where increasing the value of k results in only marginal gains.
+Here we have determined that 3 clusters were sufficient to explain the
+data.
 
 Full Code
 =========
@@ -235,14 +284,11 @@ plot(hc1, cex = 0.6, hang = -1)
 # Ward's method
 hc5 <- hclust(d, method = "average" )
 
-# Cut tree into 4 groups
+# Cut tree into 3 groups
 sub_grp <- cutree(hc5, k = 3)
 
 # Number of members in each cluster
 table(sub_grp)
-## sub_grp
-##  1  2  3  4 
-##  7 12 19 12
 
 plot(hc5, cex = 0.6)
 rect.hclust(hc5, k = 3, border = 2:5)
@@ -252,6 +298,25 @@ clust_data <- clust_data %>%
   mutate(cluster = sub_grp)
 
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
+#making a empty dataframe
+criteria <- data.frame()
+#setting range of k                   
+nk <- 1:20
+#loop for range of clusters
+for (k in nk) {
+model <- kmeans(clust_data, k)
+criteria <- rbind(criteria,c(k,model$tot.withinss,model$betweenss,model$totss))
+}
+#renaming columns
+names(criteria) <- c("k","tot.withinss","betweenss","totalss")
+
+#scree plot
+ggplot(criteria, aes(x=k)) +
+  geom_point(aes(y=tot.withinss),color="red") +
+  geom_line(aes(y=tot.withinss),color="red") +
+  geom_point(aes(y=betweenss),color="blue") +
+  geom_line(aes(y=betweenss),color="blue") +
+  xlab("k = number of clusters") + ylab("Sum of Squares (within = red, between = blue)")
 ```
 
 References
