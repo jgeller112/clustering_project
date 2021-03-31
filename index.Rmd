@@ -32,7 +32,6 @@ bibliography: utils/bibliography.bib
 csl: utils/apa.csl
 ---
 
-
 <!-- 
 !!!! IMPORTANT: run `source("utils/render.R")` to publish instead of clicking on 'Knit'
 -->

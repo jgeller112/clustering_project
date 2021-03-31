@@ -11,6 +11,12 @@ editor_options:
 In this task, individuals heard spoken speech tokens and freely classified them into groups. Using hierarchical clustering we aimed to see what clusters or groups appear as a result of the free classification task. 
 
 45 speech samples were selected from The Speech Accent Archive. The talkers included three American English regional dialects, three international English dialects, and nine nonnative accents. The nonnative accents were split into three accents from East Asia, three accents from South Asia, and three accents from Southeast Asia. The American English dialects included the New England dialect, the Southern dialect, and the Midland dialect. The international English dialects included British English, Australian English, and Africaans. The native languages of the nonnative-accented talkers were Mandarin, Korean, and Japanese from East Asia, Bengali, Gujarati, and Urdu from South Asia, and Indonesian, Tagalog, and Thai from Southeast Asia. 
+```{r}
+# For reproducibility
+set.seed(666)
+```
+
+
 
 ```{r}
 library(here)
@@ -65,36 +71,38 @@ hc1 <- hclust(d, method = "average" )
 # Plot the obtained dendrogram
 plot(hc1, cex = 0.6, hang = -1)
 
-
 ```
-
 
 In the dendrogram displayed above, each leaf corresponds to one observation. As we move up the tree, observations that are similar to each other are combined into branches, which are themselves fused at a higher height.
 
 The height of the fusion, provided on the vertical axis, indicates the (dis)similarity between two observations. The higher the height of the fusion, the less similar the observations are. Note that, conclusions about the proximity of two observations can be drawn only based on the height where branches containing those two observations first are fused. We cannot use the proximity of two observations along the horizontal axis as a criteria of their similarity.
 
-The height of the cut to the dendrogram controls the number of clusters obtained. It plays the same role as the k in k-means clustering. In order to identify sub-groups (i.e. clusters), we can cut the dendrogram with cutree:
+The height of the cut to the dendrogram controls the number of clusters obtained. It plays the same role as the k in k-means clustering. In order to identify sub-groups (i.e. clusters), we can cut the dendrogram with cutree
+
+Although hierarchical clustering provides a fully connected dendrogram representing the cluster relationships, you may still need to choose the preferred number of clusters to extract. Fortunately we can execute approaches similar to those discussed for k-means clustering (Section 20.6). The following compares results provided by the elbow, silhouette, and gap statistic methods. There is no definitively clear optimal number of clusters in this case; although, the silhouette method and Elbow method suggest 2-5 clusters. 
+
 
 ```{r}
-# Ward's method
-hc5 <- hclust(d, method = "average" )
+# Plot cluster results
+p1 <- fviz_nbclust(clust_data, FUN = hcut, method = "wss", 
+                   k.max = 10) +
+  ggtitle("(A) Elbow method")
+p2 <- fviz_nbclust(clust_data, FUN = hcut, method = "silhouette", 
+                   k.max = 10) +
+  ggtitle("(B) Silhouette method")
+p3 <- fviz_nbclust(clust_data, FUN = hcut, method = "gap_stat", 
+                   k.max = 10) +
+  ggtitle("(C) Gap statistic")
 
-# Cut tree into 3 groups
-sub_grp <- cutree(hc5, k = 3)
-
-# Number of members in each cluster
-table(sub_grp)
+# Display plots side by side
+gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
 ```
 
+### Dendrogram 
 
-### Visualize clusters on dendrogram 
 
-```{r}
-plot(hc5, cex = 0.6)
-rect.hclust(hc5, k = 3, border = 2:5)
-
-```
+Although it is a bit ambiguous I would say 3 clusters are the most interpreatable. I could be wrong. 
 
 From this, we glean that 3 clusters appear to be adequate. Generally participants grouped speakers into 3 clusters/groups:  
 
@@ -104,44 +112,53 @@ From this, we glean that 3 clusters appear to be adequate. Generally participant
 
 - Asian: Clust 3
 
-
 ```{r}
 
-clust_data <- clust_data %>%
-  mutate(cluster = sub_grp)
+hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
+
+fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 
 ```
 
 ### Visualize Clusters
 
+#### 3 Clusters
+
 ```{r}
+# Cut tree into 3 groups
+sub_grp <- cutree(hc.cut, k = 3)
+
+# Number of members in each cluster
+table(sub_grp)
+
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
+#### 4 clusters
 
 ```{r}
-#making a empty dataframe
-criteria <- data.frame()
-#setting range of k                   
-nk <- 1:20
-#loop for range of clusters
-for (k in nk) {
-model <- kmeans(clust_data, k)
-criteria <- rbind(criteria,c(k,model$tot.withinss,model$betweenss,model$totss))
-}
-#renaming columns
-names(criteria) <- c("k","tot.withinss","betweenss","totalss")
+# Cut tree into 3 groups
+sub_grp <- cutree(hc.cut, k = 4)
 
-#scree plot
-ggplot(criteria, aes(x=k)) +
-  geom_point(aes(y=tot.withinss),color="red") +
-  geom_line(aes(y=tot.withinss),color="red") +
-  geom_point(aes(y=betweenss),color="blue") +
-  geom_line(aes(y=betweenss),color="blue") +
-  xlab("k = number of clusters") + ylab("Sum of Squares (within = red, between = blue)")
+# Number of members in each cluster
+table(sub_grp)
 
+fviz_cluster(list(data = clust_data, cluster = sub_grp))
+```
+
+#### 5 clusters
+
+```{r}
+# Cut tree into 3 groups
+sub_grp <- cutree(hc.cut, k = 5)
+
+# Number of members in each cluster
+table(sub_grp)
+
+fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
 # Conclusion
-I ran a hierarchical clustering analysis using the average link method to classify talkers in a free classification task. This analysis determined that 3 clusters were adequate to explain the free classification task.  A common method for choosing the optimal number of clusters is the “elbow method”, which simply means picking the point on the plot where increasing the value of k results in only marginal gains. Here we have determined that 3 clusters were sufficient to explain the data. 
+
+I ran a hierarchical clustering analysis using the average link method to classify talkers in a free classification task. I made the decision that 3 clusters looks good. This is a subjective decision. You might think that 4 or 5 clusters makes more sense. You should refer to the elbow, shilotte, and gap plots above. 
 
