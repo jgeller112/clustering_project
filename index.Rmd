@@ -41,7 +41,7 @@ csl: utils/apa.csl
 
 We have data in wide format. Each row is a talker type and each col is a participant. 
 
-```{r child=if (fast == FALSE) '1_clustering.Rmd'}
+```{r child=if(fast == FALSE) '1_clustering.Rmd'}
 ```
 
 # Full Code
