@@ -31,7 +31,7 @@ library(dendextend) # for comparing two dendrograms
 
 1. Rows are observations (individuals) and columns are variables
 2. Any missing value in the data must be removed or estimated.
-3. The data must be standardized (i.e., scaled) to make variables comparable (I am not doing this here). 
+3. The data must be standardized (i.e., scaled) to make variables comparable if they are not on the same scale (I do not do it here). 
 
 ### Read in the data
 
@@ -78,6 +78,7 @@ In the dendrogram displayed above, each leaf corresponds to one observation. As 
 The height of the fusion, provided on the vertical axis, indicates the (dis)similarity between two observations. The higher the height of the fusion, the less similar the observations are. Note that, conclusions about the proximity of two observations can be drawn only based on the height where branches containing those two observations first are fused. We cannot use the proximity of two observations along the horizontal axis as a criteria of their similarity.
 
 The height of the cut to the dendrogram controls the number of clusters obtained. It plays the same role as the k in k-means clustering. In order to identify sub-groups (i.e. clusters), we can cut the dendrogram with cutree
+### How many?
 
 Although hierarchical clustering provides a fully connected dendrogram representing the cluster relationships, you may still need to choose the preferred number of clusters to extract. Fortunately we can execute approaches similar to those discussed for k-means clustering (Section 20.6). The following compares results provided by the elbow, silhouette, and gap statistic methods. There is no definitively clear optimal number of clusters in this case; although, the silhouette method and Elbow method suggest 2-5 clusters. 
 
@@ -99,7 +100,7 @@ gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
 ```
 
-### Dendrogram 
+#### Dendrogram 
 
 
 Although it is a bit ambiguous I would say 3 clusters are the most interpreatable. I could be wrong. 
@@ -120,7 +121,7 @@ fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 
 ```
 
-### Visualize Clusters
+## Visualize Clusters
 
 #### 3 Clusters
 

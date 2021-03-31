@@ -62,7 +62,7 @@ library(dendextend) # for comparing two dendrograms
 1.  Rows are observations (individuals) and columns are variables
 2.  Any missing value in the data must be removed or estimated.
 3.  The data must be standardized (i.e., scaled) to make variables
-    comparable (I am not doing this here).
+    comparable if they are not on the same scale (I do not do it here).
 
 ### Read in the data
 
@@ -158,7 +158,7 @@ axis as a criteria of their similarity.
 The height of the cut to the dendrogram controls the number of clusters
 obtained. It plays the same role as the k in k-means clustering. In
 order to identify sub-groups (i.e. clusters), we can cut the dendrogram
-with cutree
+with cutree \#\#\# How many?
 
 Although hierarchical clustering provides a fully connected dendrogram
 representing the cluster relationships, you may still need to choose the
@@ -194,7 +194,7 @@ gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
 ![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
-### Dendrogram
+#### Dendrogram
 
 Although it is a bit ambiguous I would say 3 clusters are the most
 interpreatable. I could be wrong.
@@ -216,7 +216,8 @@ fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 
 ![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-### Visualize Clusters
+Visualize Clusters
+------------------
 
 #### 3 Clusters
 
