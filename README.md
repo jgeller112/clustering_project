@@ -8,19 +8,6 @@ Data
 We have data in wide format. Each row is a talker type and each col is a
 participant.
 
-``` r
-df <- read_csv("data/class_wide_1.csv")
-```
-
-    ## Parsed with column specification:
-    ## cols(
-    ##   .default = col_double(),
-    ##   speaker = col_character(),
-    ##   `54` = col_character()
-    ## )
-
-    ## See spec(...) for full column specifications.
-
 Clustering
 ==========
 
@@ -140,7 +127,7 @@ hc1 <- hclust(d, method = "average" )
 plot(hc1, cex = 0.6, hang = -1)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
 In the dendrogram displayed above, each leaf corresponds to one
 observation. As we move up the tree, observations that are similar to
@@ -192,7 +179,7 @@ p3 <- fviz_nbclust(clust_data, FUN = hcut, method = "gap_stat",
 gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
 #### Dendrogram
 
@@ -214,7 +201,7 @@ hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
 fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 Visualize Clusters
 ------------------
@@ -237,7 +224,7 @@ table(sub_grp)
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
 #### 4 clusters
 
@@ -257,7 +244,7 @@ table(sub_grp)
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 #### 5 clusters
 
@@ -277,7 +264,7 @@ table(sub_grp)
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 Conclusion
 ==========
@@ -295,7 +282,6 @@ The full script of executive code contained in this document is
 reproduced here.
 
 ``` r
-df <- read_csv("data/class_wide_1.csv")
 # For reproducibility
 set.seed(666)
 library(here)
