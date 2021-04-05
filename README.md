@@ -5,8 +5,8 @@
 Data
 ----
 
-Eighty-four participants (1 participant was not used due some weird
-coding) took part in the free speech classification task. The speech
+Eighty-four participants (one participant was not used due to some weird
+coding issue) took part a free speech classification task. The speech
 samples were selected from The Speech Accent Archive. The talkers
 included three American English regional dialects, three international
 English dialects, and nine nonnative accents. The nonnative accents were
@@ -26,9 +26,10 @@ Clustering
 Introduction
 ------------
 
-In this task, individuals heard spoken speech tokens and freely
-classified them into groups. We used hierarchical clustering to examine
-what natural clusters or groups as the result of free classifcation.
+In this task, individuals heard speech tokens from a number of different
+speakers and freely classified them into groups. Based on previous work,
+I used hierarchical clustering to examine what natural clusters or
+groups formed as the result of free classification.
 
 ``` r
 # For reproducibility
@@ -41,15 +42,15 @@ library(tidyverse)  # data manipulation
 library(cluster)    # clustering algorithms
 library(factoextra) # clustering visualization
 library(dendextend) # for comparing two dendrograms
-library(fpc)
+library(fpc) # kmeans clustering
 ```
 
 ### Data Preparation
 
-1.  Rows are observations (individuals) and columns are variables
-2.  Any missing value in the data must be removed or estimated.
-3.  The data must be standardized (i.e., scaled) to make variables
-    comparable if they are not on the same scale (I do not do it here).
+1.  I wrangled the DF so that each row corresponds to each talker and
+    each column corresponds to each participant.
+2.  I removed missing data.
+3.  I did not standardize the data.
 
 ### Read in the data
 
@@ -80,27 +81,27 @@ clust_data <- select(clust_data,-speaker) # remove extra col sub 54 has weird fo
 head(clust_data)# show first couple rows
 ```
 
-    ##             8 7 1 10 11 12 14 15 16 17 18 19 2 20 23 25 26 27 28 29  3 30 31 32 33 34 35 36 38 4 40 41 42 43 44 45 46 47 48 49
-    ## bengali_9   1 5 5  1 11  2  1  8  4  2  2  1 9  7  4  5  1  1  1 11  5  1  7  7  9  8 10  8  1 3  1 10  1  1 12  1  5  1  5  8
-    ## bengali_13  6 5 5  7 14  4  2  7  4  2  6  3 9  1  4  5  4  2  3 11 12  1  8 11  9  8 10 11  1 4 12  1  1  8 11  1  5  4  1  8
-    ## bengali_16  1 5 5  7  7  4  3  6  2  8  3  3 3  1  3  4  6  1  3 10  2  1  7  8  9  8 10 11  6 3  8  8  1  8 11  1  1  2  5  7
-    ## gujarati_5  4 5 5  1 14  4  1  7  4  9  9  1 9  4  3  5  4  2  4  8  9  1  7  9  9  6 10  8  1 2  8  7  1  8  8  3 11  2  2  8
-    ## gujarati_13 1 5 5  1 15  4  2  8  4  2  6  1 9  4  5  5  6  2  4  8  5  1  7  9  9  8 10  2  1 2 12  1  1  8 11  1 11  6  5  8
-    ## gujarati_14 5 5 5  1  7  4  1  8  4  9  9  3 9  5  7  5  4  4  6  1  5  1  6  9  9  6 10  9  1 4 13  2  1  8 11  6  3  4  5  8
-    ##              5 50 51 52 53 55 56 58 59 6 78 87 90 91 96 105 110 111 115 121 123 125 132 133 135 148 151 152 153 155 156 157 158
-    ## bengali_9    1  3  7  1  8  9  1  1  5 9  1 11  1 11  1   6  11   1   2   1   9   1   3   1   1   1   5   1   8   4   8   6   5
-    ## bengali_13   5  4  7  3  8  9  1  8 11 7  1 11  1 11  1   6  11   7   8   6   9   1   6   2   3   6   9   1   8   4  10   6   5
-    ## bengali_16   5  4  7  3  8  9  8  1  6 7  5 11  2  6  1   6  10   6   8   6  10  10   4   2   3   1   7   4   8  11   8   6   3
-    ## gujarati_5  10  3  7 11  8  9  7  3 11 7  1 11  2 10  1   1  11   6   8   6   9  10   4   3   2   3   5   3   2   5   9   6   3
-    ## gujarati_13  2  4  7  1  8  9  7 10  5 7  1 11  2 11  1   6  11   2   8   6   9  10   4   2   1   1   5   1   2   5   9   6   3
-    ## gujarati_14  3  3  7 15  8  8  8  6  5 6  2 11  8 11  1   6  11   6   9   6   9   8   4   2   1   2   5   3   8   5   9   6   3
-    ##             159 160 161 162 163 164 165 166 167 168 169
-    ## bengali_9     1   5   1   7   4   1   5   1   7   1   2
-    ## bengali_13    2   1  14   7   6   4   5   1   4   2   4
-    ## bengali_16    2   3  14   7   7   1   5   1   7   4   4
-    ## gujarati_5    1   3  14   7   5   6   6   1   4   2   5
-    ## gujarati_13   1   4  14   7   5   6   5   1   7   3   6
-    ## gujarati_14   8   4   5   3   7   6   7   6   7   5   1
+    ##             8 7 1 10 11 12 14 15 16 17 18 19 2 20 23 25 26 27 28 29  3 30 31 32 33 34 35 36 38 4 40 41 42 43 44
+    ## bengali_9   1 5 5  1 11  2  1  8  4  2  2  1 9  7  4  5  1  1  1 11  5  1  7  7  9  8 10  8  1 3  1 10  1  1 12
+    ## bengali_13  6 5 5  7 14  4  2  7  4  2  6  3 9  1  4  5  4  2  3 11 12  1  8 11  9  8 10 11  1 4 12  1  1  8 11
+    ## bengali_16  1 5 5  7  7  4  3  6  2  8  3  3 3  1  3  4  6  1  3 10  2  1  7  8  9  8 10 11  6 3  8  8  1  8 11
+    ## gujarati_5  4 5 5  1 14  4  1  7  4  9  9  1 9  4  3  5  4  2  4  8  9  1  7  9  9  6 10  8  1 2  8  7  1  8  8
+    ## gujarati_13 1 5 5  1 15  4  2  8  4  2  6  1 9  4  5  5  6  2  4  8  5  1  7  9  9  8 10  2  1 2 12  1  1  8 11
+    ## gujarati_14 5 5 5  1  7  4  1  8  4  9  9  3 9  5  7  5  4  4  6  1  5  1  6  9  9  6 10  9  1 4 13  2  1  8 11
+    ##             45 46 47 48 49  5 50 51 52 53 55 56 58 59 6 78 87 90 91 96 105 110 111 115 121 123 125 132 133 135
+    ## bengali_9    1  5  1  5  8  1  3  7  1  8  9  1  1  5 9  1 11  1 11  1   6  11   1   2   1   9   1   3   1   1
+    ## bengali_13   1  5  4  1  8  5  4  7  3  8  9  1  8 11 7  1 11  1 11  1   6  11   7   8   6   9   1   6   2   3
+    ## bengali_16   1  1  2  5  7  5  4  7  3  8  9  8  1  6 7  5 11  2  6  1   6  10   6   8   6  10  10   4   2   3
+    ## gujarati_5   3 11  2  2  8 10  3  7 11  8  9  7  3 11 7  1 11  2 10  1   1  11   6   8   6   9  10   4   3   2
+    ## gujarati_13  1 11  6  5  8  2  4  7  1  8  9  7 10  5 7  1 11  2 11  1   6  11   2   8   6   9  10   4   2   1
+    ## gujarati_14  6  3  4  5  8  3  3  7 15  8  8  8  6  5 6  2 11  8 11  1   6  11   6   9   6   9   8   4   2   1
+    ##             148 151 152 153 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169
+    ## bengali_9     1   5   1   8   4   8   6   5   1   5   1   7   4   1   5   1   7   1   2
+    ## bengali_13    6   9   1   8   4  10   6   5   2   1  14   7   6   4   5   1   4   2   4
+    ## bengali_16    1   7   4   8  11   8   6   3   2   3  14   7   7   1   5   1   7   4   4
+    ## gujarati_5    3   5   3   2   5   9   6   3   1   3  14   7   5   6   6   1   4   2   5
+    ## gujarati_13   1   5   1   2   5   9   6   3   1   4  14   7   5   6   5   1   7   3   6
+    ## gujarati_14   2   5   3   8   5   9   6   3   8   4   5   3   7   6   7   6   7   5   1
 
 Agglomerative Hierarchical Clustering
 -------------------------------------
@@ -110,11 +111,11 @@ link clustering computes all pairwise dissimilarities between the
 elements, and considers the average of these dissimilarities as the
 distance between clusters.
 
-First, we calculate the dissimilarity matrix using euclidean distance.
+1.  I calculate the dissimilarity matrix using euclidean distance.
 
-Second, we comput the clustering with average link.
+2.  I compute the clustering with average link.
 
-Third, we plot the cluster solution
+3.  I plot the cluster solution
 
 ``` r
 # Dissimilarity matrix
@@ -129,6 +130,8 @@ plot(hc1, cex = 0.6, hang = -1)
 
 ![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
+### How Many Clusters?
+
 In the dendrogram displayed above, each leaf corresponds to one
 observation. As we move up the tree, observations that are similar to
 each other are combined into branches, which are themselves fused at a
@@ -142,19 +145,16 @@ height where branches containing those two observations first are fused.
 We cannot use the proximity of two observations along the horizontal
 axis as a criteria of their similarity.
 
-The height of the cut to the dendrogram controls the number of clusters
-obtained. It plays the same role as the k in k-means clustering. In
-order to identify sub-groups (i.e. clusters), we can cut the dendrogram
-with cutree \#\#\# How many?
-
 Although hierarchical clustering provides a fully connected dendrogram
 representing the cluster relationships, you may still need to choose the
 preferred number of clusters to extract. Fortunately we can execute
-approaches similar to those discussed for k-means clustering (Section
-20.6). The following compares results provided by the elbow, silhouette,
-and gap statistic methods. There is no definitively clear optimal number
-of clusters in this case; although, the silhouette method and Elbow
-method suggest 2-5 clusters.
+approaches similar to k-means clustering. The following compares results
+provided by the elbow, silhouette, and gap statistic methods. There is
+no definitively clear optimal number of clusters in this case; although,
+the silhouette method and Elbow method suggest 2-5 clusters.
+
+Humans cant live with this ambiguity. Let’s use k-means clustering to
+determine the number of clusters we should use.
 
 ``` r
 # Plot cluster results
@@ -181,19 +181,36 @@ gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
 ![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
-#### Dendrogram
+K-means
+-------
 
-Although it is a bit ambiguous I would say 3 clusters are the most
-interpreatable. I could be wrong.
+K-means is another type of clustering algorithm. For a more objective
+way to determine how many clusters there are, I am going to run k-means
+clustering over a range of cluster values (here 3-10 clusters). I will
+use the `fpc` package and the `kmeansrun` function. This function
+iterates over a number of clusters and chooses the best number of
+clusters.
 
-From this, we glean that 3 clusters appear to be adequate. Generally
-participants grouped speakers into 3 clusters/groups:
+``` r
+#run kmeans over a number of ranges (3:10) here
 
--   English/African: Clust 1
+cl <- kmeansruns(clust_data, krange = 3:10, iter.max = 1000)
 
--   Indo/European: Clust 2
+# pick the best one
+cl$bestk
+```
 
--   Asian: Clust 3
+    ## [1] 3
+
+The k-means analysis suggests 3 clusters. Let’s visualize what this
+looks like.
+
+Visualize Clusters
+------------------
+
+### Dendogram
+
+Here is a dendogram cut at 3.
 
 ``` r
 hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
@@ -201,44 +218,39 @@ hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
 fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
 
-Visualize Clusters
-------------------
+``` r
+ggsave("dendogram.png", width=10, height=8, dpi=700)
+```
 
 #### 3 Clusters
+
+Let’s visualize the clusters in two dimensions so it is a bit easier to
+read. This I saved this cluster figure as “3clust.png.” I also saved the
+data with the cluster number of each speech token as “speech_group.csv.”
+With this you can visualize the clusters how you want.
 
 ``` r
 # Cut tree into 3 groups
 sub_grp <- cutree(hc.cut, k = 3)
 
 # Number of members in each cluster
-table(sub_grp)
+sub_grp
 ```
 
-    ## sub_grp
-    ##  1  2  3 
-    ##  9 18 18
-
-``` r
-fviz_cluster(list(data = clust_data, cluster = sub_grp))
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
-
-#### 4 clusters
-
-``` r
-# Cut tree into 3 groups
-sub_grp <- cutree(hc.cut, k = 4)
-
-# Number of members in each cluster
-table(sub_grp)
-```
-
-    ## sub_grp
-    ##  1  2  3  4 
-    ##  9 16  2 18
+    ##     bengali_9    bengali_13    bengali_16    gujarati_5   gujarati_13   gujarati_14        urdu_2       urdu_15 
+    ##             1             1             1             1             1             1             1             1 
+    ##       urdu_27  indonesian_1  indonesian_8 indonesian_10     tagalog_6     tagalog_9    tagalog_18        thai_2 
+    ##             1             2             2             2             2             2             2             2 
+    ##        thai_6        thai_7   japanese_11   japanese_12   japanese_26      korean_2     korean_24     korean_30 
+    ##             2             2             2             2             2             2             2             2 
+    ##   mandarin_14   mandarin_53   mandarin_63    english_21    english_89   english_103   english_428   english_212 
+    ##             2             2             2             3             3             3             3             3 
+    ##   english_357   english_288   english_171   english_126     english_3    english_73   english_153     english_2 
+    ##             3             3             3             3             3             3             3             3 
+    ##    english_38   english_460   africaans_2  africaans _5 africaans _42 
+    ##             3             3             3             3             3
 
 ``` r
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
@@ -246,34 +258,28 @@ fviz_cluster(list(data = clust_data, cluster = sub_grp))
 
 ![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
-#### 5 clusters
-
 ``` r
-# Cut tree into 3 groups
-sub_grp <- cutree(hc.cut, k = 5)
-
-# Number of members in each cluster
-table(sub_grp)
+ggsave("3clust.png", width=10, height=8, dpi=700)
 ```
-
-    ## sub_grp
-    ##  1  2  3  4  5 
-    ##  9  5  2 11 18
-
-``` r
-fviz_cluster(list(data = clust_data, cluster = sub_grp))
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 Conclusion
 ==========
 
-I ran a hierarchical clustering analysis using the average link method
-to classify talkers in a free classification task. I made the decision
-that 3 clusters looks good. This is a subjective decision. You might
-think that 4 or 5 clusters makes more sense. You should refer to the
-elbow, shilotte, and gap plots above.
+From this, we glean that three clusters are adequate. Generally
+speaking, participants grouped speakers into three clusters/groups:
+
+-   Cluster 1: English/African
+
+-   Cluster 2: Indo/European
+
+-   Cluster 3: Asian
+
+Just to summarize, I ran a hierarchical clustering analysis using the
+average link method to classify talkers in a free classification task.
+Because there was some ambuguity in terms of the correct correct number
+of clusters, I ran an iterative k-means analysis ranging from three
+clusters to ten cluster. This analysis suggested we should use three
+clusters.
 
 Full Code
 =========
@@ -289,7 +295,7 @@ library(tidyverse)  # data manipulation
 library(cluster)    # clustering algorithms
 library(factoextra) # clustering visualization
 library(dendextend) # for comparing two dendrograms
-library(fpc)
+library(fpc) # kmeans clustering
 
 
 clust_data <- read_csv(here("data", "class_wide_1.csv")) # read in data
@@ -327,32 +333,30 @@ p3 <- fviz_nbclust(clust_data, FUN = hcut, method = "gap_stat",
 # Display plots side by side
 gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
+#run kmeans over a number of ranges (3:10) here
+
+cl <- kmeansruns(clust_data, krange = 3:10, iter.max = 1000)
+
+# pick the best one
+cl$bestk
+
 
 hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
 
 fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 
+
+ggsave("dendogram.png", width=10, height=8, dpi=700)
+
 # Cut tree into 3 groups
 sub_grp <- cutree(hc.cut, k = 3)
 
 # Number of members in each cluster
-table(sub_grp)
+sub_grp
 
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
-# Cut tree into 3 groups
-sub_grp <- cutree(hc.cut, k = 4)
 
-# Number of members in each cluster
-table(sub_grp)
-
-fviz_cluster(list(data = clust_data, cluster = sub_grp))
-# Cut tree into 3 groups
-sub_grp <- cutree(hc.cut, k = 5)
-
-# Number of members in each cluster
-table(sub_grp)
-
-fviz_cluster(list(data = clust_data, cluster = sub_grp))
+ggsave("3clust.png", width=10, height=8, dpi=700)
 ```
 
 References

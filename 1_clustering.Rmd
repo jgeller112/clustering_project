@@ -8,13 +8,12 @@ editor_options:
 
 ## Introduction
 
-In this task, individuals heard spoken speech tokens and freely classified them into groups. We used hierarchical clustering to examine what natural clusters or groups as the result of free classifcation. 
+In this task, individuals heard speech tokens from a number of different speakers and freely classified them into groups. Based on previous work, I used hierarchical clustering to examine what natural clusters or groups formed as the result of free classification. 
 
 ```{r}
 # For reproducibility
 set.seed(666)
 ```
-
 
 
 ```{r}
@@ -23,15 +22,15 @@ library(tidyverse)  # data manipulation
 library(cluster)    # clustering algorithms
 library(factoextra) # clustering visualization
 library(dendextend) # for comparing two dendrograms
-library(fpc)
+library(fpc) # kmeans clustering
 
 ```
 
 ### Data Preparation
 
-1. Rows are observations (individuals) and columns are variables
-2. Any missing value in the data must be removed or estimated.
-3. The data must be standardized (i.e., scaled) to make variables comparable if they are not on the same scale (I do not do it here). 
+1. I wrangled the DF so that each row corresponds to each talker and each column corresponds to each participant. 
+2. I removed missing data. 
+3. I did not standardize the data. 
 
 ### Read in the data
 
@@ -53,13 +52,13 @@ head(clust_data)# show first couple rows
 
 ## Agglomerative Hierarchical Clustering
 
-I am going to cluster the data  using average link clustering. Average link clustering computes all pairwise dissimilarities between the elements, and considers the average of these dissimilarities as the distance between clusters. 
+I am going to cluster the data using average link clustering. Average link clustering computes all pairwise dissimilarities between the elements, and considers the average of these dissimilarities as the distance between clusters. 
 
-First, we calculate the dissimilarity matrix using euclidean distance. 
+1. I calculate the dissimilarity matrix using euclidean distance. 
 
-Second, we comput the clustering with average link. 
+2. I compute the clustering with average link. 
 
-Third, we plot the cluster solution
+3. I plot the cluster solution
 
 ```{r}
 # Dissimilarity matrix
@@ -73,14 +72,16 @@ plot(hc1, cex = 0.6, hang = -1)
 
 ```
 
+
+### How Many Clusters?
+
 In the dendrogram displayed above, each leaf corresponds to one observation. As we move up the tree, observations that are similar to each other are combined into branches, which are themselves fused at a higher height.
 
 The height of the fusion, provided on the vertical axis, indicates the (dis)similarity between two observations. The higher the height of the fusion, the less similar the observations are. Note that, conclusions about the proximity of two observations can be drawn only based on the height where branches containing those two observations first are fused. We cannot use the proximity of two observations along the horizontal axis as a criteria of their similarity.
 
-The height of the cut to the dendrogram controls the number of clusters obtained. It plays the same role as the k in k-means clustering. In order to identify sub-groups (i.e. clusters), we can cut the dendrogram with cutree
-### How many?
+Although hierarchical clustering provides a fully connected dendrogram representing the cluster relationships, you may still need to choose the preferred number of clusters to extract. Fortunately we can execute approaches similar to k-means clustering. The following compares results provided by the elbow, silhouette, and gap statistic methods. There is no definitively clear optimal number of clusters in this case; although, the silhouette method and Elbow method suggest 2-5 clusters. 
 
-Although hierarchical clustering provides a fully connected dendrogram representing the cluster relationships, you may still need to choose the preferred number of clusters to extract. Fortunately we can execute approaches similar to those discussed for k-means clustering (Section 20.6). The following compares results provided by the elbow, silhouette, and gap statistic methods. There is no definitively clear optimal number of clusters in this case; although, the silhouette method and Elbow method suggest 2-5 clusters. 
+Humans cant live with this ambiguity. Let's use k-means clustering to determine the number of clusters we should use. 
 
 
 ```{r}
@@ -100,18 +101,27 @@ gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
 ```
 
-#### Dendrogram 
+## K-means
 
+K-means is another type of clustering algorithm. For a more objective way to determine how many clusters there are, I am going to run k-means clustering over a range of cluster values (here 3-10 clusters). I will use the `fpc` package and the `kmeansrun` function. This function iterates over a number of clusters and chooses the best number of clusters. 
 
-Although it is a bit ambiguous I would say 3 clusters are the most interpreatable. I could be wrong. 
+```{r}
+#run kmeans over a number of ranges (3:10) here
 
-From this, we glean that 3 clusters appear to be adequate. Generally participants grouped speakers into 3 clusters/groups:  
+cl <- kmeansruns(clust_data, krange = 3:10, iter.max = 1000)
 
-- English/African: Clust 1
+# pick the best one
+cl$bestk
 
-- Indo/European: Clust  2 
+```
 
-- Asian: Clust 3
+The k-means analysis suggests 3 clusters. Let's visualize what this looks like.
+
+## Visualize Clusters
+
+### Dendogram
+
+Here is a dendogram cut at 3. 
 
 ```{r}
 
@@ -119,47 +129,38 @@ hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
 
 fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 
+
+ggsave("dendogram.png", width=10, height=8, dpi=700)
+
 ```
 
-## Visualize Clusters
-
 #### 3 Clusters
+
+Let's visualize the clusters in two dimensions so it is a bit easier to read. This I saved this cluster figure as "3clust.png." I also saved the data with the cluster number of each speech token as "speech_group.csv." With this you can visualize the clusters how you want. 
 
 ```{r}
 # Cut tree into 3 groups
 sub_grp <- cutree(hc.cut, k = 3)
 
 # Number of members in each cluster
-table(sub_grp)
+sub_grp
 
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
-```
 
-#### 4 clusters
-
-```{r}
-# Cut tree into 3 groups
-sub_grp <- cutree(hc.cut, k = 4)
-
-# Number of members in each cluster
-table(sub_grp)
-
-fviz_cluster(list(data = clust_data, cluster = sub_grp))
-```
-
-#### 5 clusters
-
-```{r}
-# Cut tree into 3 groups
-sub_grp <- cutree(hc.cut, k = 5)
-
-# Number of members in each cluster
-table(sub_grp)
-
-fviz_cluster(list(data = clust_data, cluster = sub_grp))
+ggsave("3clust.png", width=10, height=8, dpi=700)
 ```
 
 # Conclusion
 
-I ran a hierarchical clustering analysis using the average link method to classify talkers in a free classification task. I made the decision that 3 clusters looks good. This is a subjective decision. You might think that 4 or 5 clusters makes more sense. You should refer to the elbow, shilotte, and gap plots above. 
+From this, we glean that three clusters are adequate. Generally speaking, participants grouped speakers into three clusters/groups:  
+
+- Cluster 1: English/African
+
+- Cluster 2: Indo/European
+
+- Cluster 3: Asian
+
+Just to summarize, I ran a hierarchical clustering analysis using the average link method to classify talkers in a free classification task. Because there was some ambuguity in terms of the correct correct number of clusters, I ran an iterative k-means analysis ranging from  three clusters to ten cluster. This analysis suggested we should use three clusters.
+
+
 
