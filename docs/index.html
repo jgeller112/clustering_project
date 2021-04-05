@@ -1680,21 +1680,21 @@ div.tocify {
 -->
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>We have data in wide format. Each row is a talker type and each col is a participant.</p>
+<p>8Eighty-four participants (1 participant was not used due some weird coding) took part in the free speech classification task. The speech samples were selected from The Speech Accent Archive. The talkers included three American English regional dialects, three international English dialects, and nine nonnative accents. The nonnative accents were split into three accents from East Asia, three accents from South Asia, and three accents from Southeast Asia. The American English dialects included the New England dialect, the Southern dialect, and the Midland dialect. The international English dialects included British English, Australian English, and Africaans. The native languages of the nonnative-accented talkers were Mandarin, Korean, and Japanese from East Asia, Bengali, Gujarati, and Urdu from South Asia, and Indonesian, Tagalog, and Thai from Southeast Asia. We have data in wide format. Each row is a talker type and each col is a participant.</p>
 </div>
 <div id="clustering" class="section level1">
 <h1>Clustering</h1>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>In this task, individuals heard spoken speech tokens and freely classified them into groups. Using hierarchical clustering we aimed to see what clusters or groups appear as a result of the free classification task.</p>
-<p>45 speech samples were selected from The Speech Accent Archive. The talkers included three American English regional dialects, three international English dialects, and nine nonnative accents. The nonnative accents were split into three accents from East Asia, three accents from South Asia, and three accents from Southeast Asia. The American English dialects included the New England dialect, the Southern dialect, and the Midland dialect. The international English dialects included British English, Australian English, and Africaans. The native languages of the nonnative-accented talkers were Mandarin, Korean, and Japanese from East Asia, Bengali, Gujarati, and Urdu from South Asia, and Indonesian, Tagalog, and Thai from Southeast Asia.</p>
+<p>In this task, individuals heard spoken speech tokens and freely classified them into groups. We used hierarchical clustering to examine what natural clusters or groups as the result of free classifcation.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For reproducibility</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">666</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># data manipulation</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)    <span class="co"># clustering algorithms</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra) <span class="co"># clustering visualization</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dendextend) <span class="co"># for comparing two dendrograms</span></span></code></pre></div>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dendextend) <span class="co"># for comparing two dendrograms</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpc)</span></code></pre></div>
 <div id="data-preparation" class="section level3">
 <h3>Data Preparation</h3>
 <ol style="list-style-type: decimal">
@@ -2537,75 +2537,76 @@ div.tocify {
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cluster)    <span class="co"># clustering algorithms</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(factoextra) <span class="co"># clustering visualization</span></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dendextend) <span class="co"># for comparing two dendrograms</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpc)</span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;class_wide_1.csv&quot;</span>)) <span class="co"># read in data</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">select</span>(clust_data, <span class="sc">-</span>X1, <span class="sc">-</span><span class="st">`</span><span class="at">54</span><span class="st">`</span>) <span class="co"># remove extra col sub 54 has weird formatting</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(clust_data) <span class="co"># turn into df </span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(clust_data) <span class="ot">&lt;-</span> clust_data<span class="sc">$</span>speaker <span class="co"># make row names speaker</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">select</span>(clust_data,<span class="sc">-</span>speaker) <span class="co"># remove extra col sub 54 has weird formatting</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(clust_data)<span class="co"># show first couple rows</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissimilarity matrix</span></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(clust_data, <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>)</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Hierarchical clustering using Average Linkage</span></span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>hc1 <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">&quot;average&quot;</span> )</span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the obtained dendrogram</span></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc1, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot cluster results</span></span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(clust_data, <span class="at">FUN =</span> hcut, <span class="at">method =</span> <span class="st">&quot;wss&quot;</span>, </span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>                   <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;(A) Elbow method&quot;</span>)</span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(clust_data, <span class="at">FUN =</span> hcut, <span class="at">method =</span> <span class="st">&quot;silhouette&quot;</span>, </span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>                   <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;(B) Silhouette method&quot;</span>)</span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(clust_data, <span class="at">FUN =</span> hcut, <span class="at">method =</span> <span class="st">&quot;gap_stat&quot;</span>, </span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>                   <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;(C) Gap statistic&quot;</span>)</span>
-<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Display plots side by side</span></span>
-<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
-<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">&quot;data&quot;</span>, <span class="st">&quot;class_wide_1.csv&quot;</span>)) <span class="co"># read in data</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">select</span>(clust_data, <span class="sc">-</span>X1, <span class="sc">-</span><span class="st">`</span><span class="at">54</span><span class="st">`</span>) <span class="co"># remove extra col sub 54 has weird formatting</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(clust_data) <span class="co"># turn into df </span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(clust_data) <span class="ot">&lt;-</span> clust_data<span class="sc">$</span>speaker <span class="co"># make row names speaker</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>clust_data <span class="ot">&lt;-</span> <span class="fu">select</span>(clust_data,<span class="sc">-</span>speaker) <span class="co"># remove extra col sub 54 has weird formatting</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(clust_data)<span class="co"># show first couple rows</span></span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Dissimilarity matrix</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">dist</span>(clust_data, <span class="at">method =</span> <span class="st">&quot;euclidean&quot;</span>)</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Hierarchical clustering using Average Linkage</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>hc1 <span class="ot">&lt;-</span> <span class="fu">hclust</span>(d, <span class="at">method =</span> <span class="st">&quot;average&quot;</span> )</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the obtained dendrogram</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(hc1, <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">hang =</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot cluster results</span></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(clust_data, <span class="at">FUN =</span> hcut, <span class="at">method =</span> <span class="st">&quot;wss&quot;</span>, </span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>                   <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;(A) Elbow method&quot;</span>)</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(clust_data, <span class="at">FUN =</span> hcut, <span class="at">method =</span> <span class="st">&quot;silhouette&quot;</span>, </span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>                   <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;(B) Silhouette method&quot;</span>)</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(clust_data, <span class="at">FUN =</span> hcut, <span class="at">method =</span> <span class="st">&quot;gap_stat&quot;</span>, </span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a>                   <span class="at">k.max =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;(C) Gap statistic&quot;</span>)</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Display plots side by side</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(p1, p2, p3, <span class="at">nrow =</span> <span class="dv">1</span>)</span>
 <span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a>hc.cut <span class="ot">&lt;-</span> <span class="fu">hcut</span>(clust_data, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">hc_method =</span> <span class="st">&quot;average&quot;</span>)</span>
-<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_dend</span>(hc.cut, <span class="at">show_labels =</span> <span class="cn">TRUE</span>, <span class="at">rect =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut tree into 3 groups</span></span>
-<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>sub_grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.cut, <span class="at">k =</span> <span class="dv">3</span>)</span>
-<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of members in each cluster</span></span>
-<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sub_grp)</span>
-<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> clust_data, <span class="at">cluster =</span> sub_grp))</span>
-<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut tree into 3 groups</span></span>
-<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>sub_grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.cut, <span class="at">k =</span> <span class="dv">4</span>)</span>
-<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of members in each cluster</span></span>
-<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sub_grp)</span>
-<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> clust_data, <span class="at">cluster =</span> sub_grp))</span>
-<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut tree into 3 groups</span></span>
-<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>sub_grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.cut, <span class="at">k =</span> <span class="dv">5</span>)</span>
-<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of members in each cluster</span></span>
-<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sub_grp)</span>
-<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> clust_data, <span class="at">cluster =</span> sub_grp))</span></code></pre></div>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>hc.cut <span class="ot">&lt;-</span> <span class="fu">hcut</span>(clust_data, <span class="at">k =</span> <span class="dv">3</span>, <span class="at">hc_method =</span> <span class="st">&quot;average&quot;</span>)</span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_dend</span>(hc.cut, <span class="at">show_labels =</span> <span class="cn">TRUE</span>, <span class="at">rect =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut tree into 3 groups</span></span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>sub_grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.cut, <span class="at">k =</span> <span class="dv">3</span>)</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of members in each cluster</span></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sub_grp)</span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> clust_data, <span class="at">cluster =</span> sub_grp))</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut tree into 3 groups</span></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>sub_grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.cut, <span class="at">k =</span> <span class="dv">4</span>)</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of members in each cluster</span></span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sub_grp)</span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> clust_data, <span class="at">cluster =</span> sub_grp))</span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Cut tree into 3 groups</span></span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>sub_grp <span class="ot">&lt;-</span> <span class="fu">cutree</span>(hc.cut, <span class="at">k =</span> <span class="dv">5</span>)</span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of members in each cluster</span></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sub_grp)</span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_cluster</span>(<span class="fu">list</span>(<span class="at">data =</span> clust_data, <span class="at">cluster =</span> sub_grp))</span></code></pre></div>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAnRnJlZSBDbGFzc2lmaWNhdGlvbjogQ2x1c3RlcmluZyBQcm9qZWN0JwpzdWJ0aXRsZTogQ2x1c3RlcmluZwpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIHRoZW1lOiBjZXJ1bGVhbgogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIG51bWJlcl9zZWN0aW9uczogbm8KICAgIGRmX3ByaW50OiBrYWJsZQogICAgY29kZV9mb2xkaW5nOiBoaWRlCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICB3b3JkX2RvY3VtZW50OgogICAgcmVmZXJlbmNlX2RvY3g6IHV0aWxzL1RlbXBsYXRlX1dvcmQuZG9jeAogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiBubwogICAgdG9jX2RlcHRoOiAzCiAgICBkZl9wcmludDoga2FibGUKICAgIG51bWJlcl9zZWN0aW9uczogeWVzCiAgcm1hcmtkb3duOjpodG1sX3ZpZ25ldHRlOgogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogeWVzCiAgICB0b2NfZGVwdGg6ICcyJwogICAgbGF0ZXhfZW5naW5lOiB4ZWxhdGV4CmVkaXRvcl9vcHRpb25zOgogIGNodW5rX291dHB1dF90eXBlOiBjb25zb2xlCmJpYmxpb2dyYXBoeTogdXRpbHMvYmlibGlvZ3JhcGh5LmJpYgpjc2w6IHV0aWxzL2FwYS5jc2wKLS0tCgo8IS0tIAohISEhIElNUE9SVEFOVDogcnVuIGBzb3VyY2UoInV0aWxzL3JlbmRlci5SIilgIHRvIHB1Ymxpc2ggaW5zdGVhZCBvZiBjbGlja2luZyBvbiAnS25pdCcKLS0+CgoKIyMgRGF0YQoKV2UgaGF2ZSBkYXRhIGluIHdpZGUgZm9ybWF0LiBFYWNoIHJvdyBpcyBhIHRhbGtlciB0eXBlIGFuZCBlYWNoIGNvbCBpcyBhIHBhcnRpY2lwYW50LiAKCmBgYHtyIGNoaWxkPWlmKGZhc3QgPT0gRkFMU0UpICcxX2NsdXN0ZXJpbmcuUm1kJ30KYGBgCgojIEZ1bGwgQ29kZQoKVGhlIGZ1bGwgc2NyaXB0IG9mIGV4ZWN1dGl2ZSBjb2RlIGNvbnRhaW5lZCBpbiB0aGlzIGRvY3VtZW50IGlzIHJlcHJvZHVjZWQgaGVyZS4KCmBgYHtyIGZ1bGxfY29kZSwgcmVmLmxhYmVsPWtuaXRyOjphbGxfbGFiZWxzKCksIGV2YWw9RkFMU0V9CmBgYAoKCiMgUmVmZXJlbmNlcwo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAnRnJlZSBDbGFzc2lmaWNhdGlvbjogQ2x1c3RlcmluZyBQcm9qZWN0JwpzdWJ0aXRsZTogQ2x1c3RlcmluZwpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIHRoZW1lOiBjZXJ1bGVhbgogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIG51bWJlcl9zZWN0aW9uczogbm8KICAgIGRmX3ByaW50OiBrYWJsZQogICAgY29kZV9mb2xkaW5nOiBoaWRlCiAgICBjb2RlX2Rvd25sb2FkOiB5ZXMKICB3b3JkX2RvY3VtZW50OgogICAgcmVmZXJlbmNlX2RvY3g6IHV0aWxzL1RlbXBsYXRlX1dvcmQuZG9jeAogICAgaGlnaGxpZ2h0OiBweWdtZW50cwogICAgdG9jOiBubwogICAgdG9jX2RlcHRoOiAzCiAgICBkZl9wcmludDoga2FibGUKICAgIG51bWJlcl9zZWN0aW9uczogeWVzCiAgcm1hcmtkb3duOjpodG1sX3ZpZ25ldHRlOgogICAgdG9jOiB5ZXMKICAgIHRvY19kZXB0aDogMwogIHBkZl9kb2N1bWVudDoKICAgIHRvYzogeWVzCiAgICB0b2NfZGVwdGg6ICcyJwogICAgbGF0ZXhfZW5naW5lOiB4ZWxhdGV4CmVkaXRvcl9vcHRpb25zOgogIGNodW5rX291dHB1dF90eXBlOiBjb25zb2xlCmJpYmxpb2dyYXBoeTogdXRpbHMvYmlibGlvZ3JhcGh5LmJpYgpjc2w6IHV0aWxzL2FwYS5jc2wKLS0tCgo8IS0tIAohISEhIElNUE9SVEFOVDogcnVuIGBzb3VyY2UoInV0aWxzL3JlbmRlci5SIilgIHRvIHB1Ymxpc2ggaW5zdGVhZCBvZiBjbGlja2luZyBvbiAnS25pdCcKLS0+CgoKIyMgRGF0YQoKOEVpZ2h0eS1mb3VyIHBhcnRpY2lwYW50cyAoMSBwYXJ0aWNpcGFudCB3YXMgbm90IHVzZWQgZHVlIHNvbWUgd2VpcmQgY29kaW5nKSB0b29rIHBhcnQgaW4gdGhlIGZyZWUgc3BlZWNoIGNsYXNzaWZpY2F0aW9uIHRhc2suIFRoZSBzcGVlY2ggc2FtcGxlcyB3ZXJlIHNlbGVjdGVkIGZyb20gVGhlIFNwZWVjaCBBY2NlbnQgQXJjaGl2ZS4gVGhlIHRhbGtlcnMgaW5jbHVkZWQgdGhyZWUgQW1lcmljYW4gRW5nbGlzaCByZWdpb25hbCBkaWFsZWN0cywgdGhyZWUgaW50ZXJuYXRpb25hbCBFbmdsaXNoIGRpYWxlY3RzLCBhbmQgbmluZSBub25uYXRpdmUgYWNjZW50cy4gVGhlIG5vbm5hdGl2ZSBhY2NlbnRzIHdlcmUgc3BsaXQgaW50byB0aHJlZSBhY2NlbnRzIGZyb20gRWFzdCBBc2lhLCB0aHJlZSBhY2NlbnRzIGZyb20gU291dGggQXNpYSwgYW5kIHRocmVlIGFjY2VudHMgZnJvbSBTb3V0aGVhc3QgQXNpYS4gVGhlIEFtZXJpY2FuIEVuZ2xpc2ggZGlhbGVjdHMgaW5jbHVkZWQgdGhlIE5ldyBFbmdsYW5kIGRpYWxlY3QsIHRoZSBTb3V0aGVybiBkaWFsZWN0LCBhbmQgdGhlIE1pZGxhbmQgZGlhbGVjdC4gVGhlIGludGVybmF0aW9uYWwgRW5nbGlzaCBkaWFsZWN0cyBpbmNsdWRlZCBCcml0aXNoIEVuZ2xpc2gsIEF1c3RyYWxpYW4gRW5nbGlzaCwgYW5kIEFmcmljYWFucy4gVGhlIG5hdGl2ZSBsYW5ndWFnZXMgb2YgdGhlIG5vbm5hdGl2ZS1hY2NlbnRlZCB0YWxrZXJzIHdlcmUgTWFuZGFyaW4sIEtvcmVhbiwgYW5kIEphcGFuZXNlIGZyb20gRWFzdCBBc2lhLCBCZW5nYWxpLCBHdWphcmF0aSwgYW5kIFVyZHUgZnJvbSBTb3V0aCBBc2lhLCBhbmQgSW5kb25lc2lhbiwgVGFnYWxvZywgYW5kIFRoYWkgZnJvbSBTb3V0aGVhc3QgQXNpYS4gV2UgaGF2ZSBkYXRhIGluIHdpZGUgZm9ybWF0LiBFYWNoIHJvdyBpcyBhIHRhbGtlciB0eXBlIGFuZCBlYWNoIGNvbCBpcyBhIHBhcnRpY2lwYW50LiAKCgoKYGBge3IgY2hpbGQ9aWYoZmFzdCA9PSBGQUxTRSkgJzFfY2x1c3RlcmluZy5SbWQnfQpgYGAKCiMgRnVsbCBDb2RlCgpUaGUgZnVsbCBzY3JpcHQgb2YgZXhlY3V0aXZlIGNvZGUgY29udGFpbmVkIGluIHRoaXMgZG9jdW1lbnQgaXMgcmVwcm9kdWNlZCBoZXJlLgoKYGBge3IgZnVsbF9jb2RlLCByZWYubGFiZWw9a25pdHI6OmFsbF9sYWJlbHMoKSwgZXZhbD1GQUxTRX0KYGBgCgoKIyBSZWZlcmVuY2VzCg==</div>
 
 
 </div>

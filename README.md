@@ -5,8 +5,20 @@
 Data
 ----
 
-We have data in wide format. Each row is a talker type and each col is a
-participant.
+8Eighty-four participants (1 participant was not used due some weird
+coding) took part in the free speech classification task. The speech
+samples were selected from The Speech Accent Archive. The talkers
+included three American English regional dialects, three international
+English dialects, and nine nonnative accents. The nonnative accents were
+split into three accents from East Asia, three accents from South Asia,
+and three accents from Southeast Asia. The American English dialects
+included the New England dialect, the Southern dialect, and the Midland
+dialect. The international English dialects included British English,
+Australian English, and Africaans. The native languages of the
+nonnative-accented talkers were Mandarin, Korean, and Japanese from East
+Asia, Bengali, Gujarati, and Urdu from South Asia, and Indonesian,
+Tagalog, and Thai from Southeast Asia. We have data in wide format. Each
+row is a talker type and each col is a participant.
 
 Clustering
 ==========
@@ -15,21 +27,8 @@ Introduction
 ------------
 
 In this task, individuals heard spoken speech tokens and freely
-classified them into groups. Using hierarchical clustering we aimed to
-see what clusters or groups appear as a result of the free
-classification task.
-
-45 speech samples were selected from The Speech Accent Archive. The
-talkers included three American English regional dialects, three
-international English dialects, and nine nonnative accents. The
-nonnative accents were split into three accents from East Asia, three
-accents from South Asia, and three accents from Southeast Asia. The
-American English dialects included the New England dialect, the Southern
-dialect, and the Midland dialect. The international English dialects
-included British English, Australian English, and Africaans. The native
-languages of the nonnative-accented talkers were Mandarin, Korean, and
-Japanese from East Asia, Bengali, Gujarati, and Urdu from South Asia,
-and Indonesian, Tagalog, and Thai from Southeast Asia.
+classified them into groups. We used hierarchical clustering to examine
+what natural clusters or groups as the result of free classifcation.
 
 ``` r
 # For reproducibility
@@ -42,6 +41,7 @@ library(tidyverse)  # data manipulation
 library(cluster)    # clustering algorithms
 library(factoextra) # clustering visualization
 library(dendextend) # for comparing two dendrograms
+library(fpc)
 ```
 
 ### Data Preparation
@@ -289,6 +289,7 @@ library(tidyverse)  # data manipulation
 library(cluster)    # clustering algorithms
 library(factoextra) # clustering visualization
 library(dendextend) # for comparing two dendrograms
+library(fpc)
 
 
 clust_data <- read_csv(here("data", "class_wide_1.csv")) # read in data
