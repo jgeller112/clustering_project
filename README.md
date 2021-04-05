@@ -5,7 +5,7 @@
 Data
 ----
 
-8Eighty-four participants (1 participant was not used due some weird
+Eighty-four participants (1 participant was not used due some weird
 coding) took part in the free speech classification task. The speech
 samples were selected from The Speech Accent Archive. The talkers
 included three American English regional dialects, three international
