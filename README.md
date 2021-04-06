@@ -29,7 +29,7 @@ Introduction
 In this task, individuals heard speech tokens from a number of different
 speakers and freely classified them into groups. Based on previous work,
 I used hierarchical clustering to examine what natural clusters or
-groups formed as the result of free classification.
+groups formed as the result of this free classification.
 
 ``` r
 # For reproducibility
@@ -45,7 +45,8 @@ library(dendextend) # for comparing two dendrograms
 library(fpc) # kmeans clustering
 ```
 
-### Data Preparation
+Data Preparation
+----------------
 
 1.  I wrangled the DF so that each row corresponds to each talker and
     each column corresponds to each participant.
@@ -151,7 +152,8 @@ preferred number of clusters to extract. Fortunately we can execute
 approaches similar to k-means clustering. The following compares results
 provided by the elbow, silhouette, and gap statistic methods. There is
 no definitively clear optimal number of clusters in this case; although,
-the silhouette method and Elbow method suggest 2-5 clusters.
+the silhouette method and Elbow method suggests anywhere between 2-5
+clusters.
 
 Humans cant live with this ambiguity. Let’s use k-means clustering to
 determine the number of clusters we should use.
@@ -181,6 +183,10 @@ gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
 ![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
 
+``` r
+ggsave("HCstats.png", width=10, height=8)
+```
+
 K-means
 -------
 
@@ -194,21 +200,38 @@ clusters.
 ``` r
 #run kmeans over a number of ranges (3:10) here
 
-cl <- kmeansruns(clust_data, krange = 3:10, iter.max = 1000)
+cl <- kmeansruns(clust_data, krange = 2:10, iter.max = 1000)
 
 # pick the best one
 cl$bestk
 ```
 
-    ## [1] 3
+    ## [1] 2
 
-The k-means analysis suggests 3 clusters. Let’s visualize what this
-looks like.
+The k-means analysis suggests 2 clusters is best. I personally think 3
+clusters better represents the data. It is really a subjective call on
+your part. Let’s visualize both to see what the clusters look like.
 
 Visualize Clusters
 ------------------
 
 ### Dendogram
+
+#### 2 clusters
+
+Here is a dendogram cut at 2.
+
+``` r
+hc.cut <- hcut(clust_data, k = 2, hc_method = "average")
+
+fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
+
+``` r
+ggsave("dendogram2.png", width=10, height=8, dpi=700)
+```
 
 Here is a dendogram cut at 3.
 
@@ -218,18 +241,56 @@ hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
 fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 ``` r
-ggsave("dendogram.png", width=10, height=8, dpi=700)
+ggsave("dendogram3.png", width=10, height=8, dpi=700)
+```
+
+#### 2 Clusters
+
+Let’s visualize the clusters in two dimensions as it is a bit easier to
+read that the above dendrogram. I saved this cluster figure as
+“2clust.png.”
+
+``` r
+# Cut tree into 3 groups
+sub_grp <- cutree(hc.cut, k = 2)
+
+# Number of members in each cluster
+sub_grp
+```
+
+    ##     bengali_9    bengali_13    bengali_16    gujarati_5   gujarati_13   gujarati_14        urdu_2       urdu_15 
+    ##             1             1             1             1             1             1             1             1 
+    ##       urdu_27  indonesian_1  indonesian_8 indonesian_10     tagalog_6     tagalog_9    tagalog_18        thai_2 
+    ##             1             1             1             1             1             1             1             1 
+    ##        thai_6        thai_7   japanese_11   japanese_12   japanese_26      korean_2     korean_24     korean_30 
+    ##             1             1             1             1             1             1             1             1 
+    ##   mandarin_14   mandarin_53   mandarin_63    english_21    english_89   english_103   english_428   english_212 
+    ##             1             1             1             2             2             2             2             2 
+    ##   english_357   english_288   english_171   english_126     english_3    english_73   english_153     english_2 
+    ##             2             2             2             2             2             2             2             2 
+    ##    english_38   english_460   africaans_2  africaans _5 africaans _42 
+    ##             2             2             2             2             2
+
+``` r
+fviz_cluster(list(data = clust_data, cluster = sub_grp))
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-10-1.png)
+
+``` r
+ggsave("2clust.png", width=10, height=8, dpi=700)
 ```
 
 #### 3 Clusters
 
-Let’s visualize the clusters in two dimensions so it is a bit easier to
-read. This I saved this cluster figure as “3clust.png.” I also saved the
-data with the cluster number of each speech token as “speech_group.csv.”
-With this you can visualize the clusters how you want.
+Let’s visualize the clusters in two dimensions as it is a bit easier to
+read that the above dendrogram. I saved this cluster figure as
+“3clust.png.” I also saved the data with the cluster number of each
+speech token as “speech_group.csv.” With this you can visualize the
+clusters how you want.
 
 ``` r
 # Cut tree into 3 groups
@@ -256,7 +317,7 @@ sub_grp
 fviz_cluster(list(data = clust_data, cluster = sub_grp))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-9-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 ``` r
 ggsave("3clust.png", width=10, height=8, dpi=700)
@@ -265,8 +326,9 @@ ggsave("3clust.png", width=10, height=8, dpi=700)
 Conclusion
 ==========
 
-From this, we glean that three clusters are adequate. Generally
-speaking, participants grouped speakers into three clusters/groups:
+From this, we glean that two clusters are adequate.
+
+I think 3 better represents the data, however.
 
 -   Cluster 1: English/African
 
@@ -276,10 +338,11 @@ speaking, participants grouped speakers into three clusters/groups:
 
 Just to summarize, I ran a hierarchical clustering analysis using the
 average link method to classify talkers in a free classification task.
-Because there was some ambuguity in terms of the correct correct number
-of clusters, I ran an iterative k-means analysis ranging from three
-clusters to ten cluster. This analysis suggested we should use three
-clusters.
+Because there was some ambiguity in terms of the correct correct number
+of clusters, I ran an iterative k-means analysis ranging from two
+clusters to ten cluster. This analysis suggested we should use two
+clusters. If you think three clusters better represents the data please
+use three instead.
 
 Full Code
 =========
@@ -333,12 +396,22 @@ p3 <- fviz_nbclust(clust_data, FUN = hcut, method = "gap_stat",
 # Display plots side by side
 gridExtra::grid.arrange(p1, p2, p3, nrow = 1)
 
+ggsave("HCstats.png", width=10, height=8)
+
 #run kmeans over a number of ranges (3:10) here
 
-cl <- kmeansruns(clust_data, krange = 3:10, iter.max = 1000)
+cl <- kmeansruns(clust_data, krange = 2:10, iter.max = 1000)
 
 # pick the best one
 cl$bestk
+
+
+hc.cut <- hcut(clust_data, k = 2, hc_method = "average")
+
+fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
+
+
+ggsave("dendogram2.png", width=10, height=8, dpi=700)
 
 
 hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
@@ -346,8 +419,17 @@ hc.cut <- hcut(clust_data, k = 3, hc_method = "average")
 fviz_dend(hc.cut, show_labels = TRUE, rect = TRUE)
 
 
-ggsave("dendogram.png", width=10, height=8, dpi=700)
+ggsave("dendogram3.png", width=10, height=8, dpi=700)
 
+# Cut tree into 3 groups
+sub_grp <- cutree(hc.cut, k = 2)
+
+# Number of members in each cluster
+sub_grp
+
+fviz_cluster(list(data = clust_data, cluster = sub_grp))
+
+ggsave("2clust.png", width=10, height=8, dpi=700)
 # Cut tree into 3 groups
 sub_grp <- cutree(hc.cut, k = 3)
 
