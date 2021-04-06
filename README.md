@@ -6,7 +6,7 @@ Data
 ----
 
 Eighty-four participants (one participant was not used due to some weird
-coding issue) took part a free speech classification task. The speech
+coding issue) took part in a free speech classification task. The speech
 samples were selected from The Speech Accent Archive. The talkers
 included three American English regional dialects, three international
 English dialects, and nine nonnative accents. The nonnative accents were
