@@ -161,7 +161,9 @@ sub_grp <- cutree(hc.cut, k = 2)
 # Number of members in each cluster
 sub_grp
 
-fviz_cluster(list(data = clust_data, cluster = sub_grp))
+s=fviz_cluster(list(data = clust_data, cluster = sub_grp), labelsize = 10, repel = TRUE)
+
+s
 
 ggsave("2clust.png", width=10, height=8, dpi=700)
 ```
