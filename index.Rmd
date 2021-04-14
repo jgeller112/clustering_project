@@ -43,7 +43,7 @@ Eighty-four participants (one participant was not used due to some weird coding 
 
 
 
-```{r '1_clustering.Rmd'}
+```{r child=if(fast == FALSE) '1_clustering.Rmd'}
 
 ```
 
